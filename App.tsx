@@ -74,6 +74,7 @@ const App: React.FC = () => {
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
   const [isReportModalOpen, setReportModalOpen] = useState(false);
   const [initialQuery, setInitialQuery] = useState('');
+  const [initialAgencyId, setInitialAgencyId] = useState('');
   const [contentPageData, setContentPageData] = useState<ContentPageData | null>(null);
   
   const [history, setHistory] = useState<Page[]>(['home']);
@@ -109,6 +110,10 @@ const App: React.FC = () => {
   };
 
   const handleNavigate = (page: 'home' | 'programs' | 'map' | 'hub') => {
+    if (page === 'programs') {
+        setInitialQuery('');
+        setInitialAgencyId('');
+    }
     navigate(page);
   };
 
@@ -119,6 +124,13 @@ const App: React.FC = () => {
   
   const handleSearch = (query: string) => {
     setInitialQuery(query);
+    setInitialAgencyId('');
+    navigate('programs');
+  };
+
+  const handleViewAgencyPrograms = (agencyId: number) => {
+    setInitialQuery('');
+    setInitialAgencyId(agencyId.toString());
     navigate('programs');
   };
 
@@ -137,6 +149,7 @@ const App: React.FC = () => {
           onProgramSelect={handleProgramSelect}
           onBack={handleBack}
           initialQuery={initialQuery}
+          initialAgencyId={initialAgencyId}
         />;
       case 'programDetail':
         if (selectedProgram) {
@@ -169,6 +182,7 @@ const App: React.FC = () => {
                     course={selectedCourse} 
                     relatedProgram={relatedProgram} 
                     onBack={handleBack} 
+                    onViewAgencyPrograms={handleViewAgencyPrograms}
                 />;
             }
         }

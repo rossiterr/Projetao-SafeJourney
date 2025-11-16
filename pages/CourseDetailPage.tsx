@@ -7,6 +7,7 @@ interface CourseDetailPageProps {
   course: Course;
   relatedProgram: Program;
   onBack: () => void;
+  onViewAgencyPrograms: (agencyId: number) => void;
 }
 
 // Função para gerar sementes de fotos dinâmicas e contextuais
@@ -34,7 +35,7 @@ const generatePhotoSeeds = (course: Course, program: Program): string[] => {
 };
 
 
-export const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ course, relatedProgram, onBack }) => {
+export const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ course, relatedProgram, onBack, onViewAgencyPrograms }) => {
   const agency = relatedProgram.agency;
   const photoSeeds = generatePhotoSeeds(course, relatedProgram);
 
@@ -117,7 +118,9 @@ export const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ course, rela
                         </ul>
                     </div>
                 )}
-                 <button className="mt-8 bg-[#5F9EA0] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#66CDAA] transition-all duration-300 transform hover:scale-105">
+                 <button 
+                    onClick={() => onViewAgencyPrograms(agency.id)}
+                    className="mt-8 bg-[#5F9EA0] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#66CDAA] transition-all duration-300 transform hover:scale-105">
                     Ver Todos os Programas da Agência
                 </button>
             </div>

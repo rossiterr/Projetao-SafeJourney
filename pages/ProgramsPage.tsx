@@ -13,12 +13,13 @@ interface ProgramsPageProps {
   onProgramSelect: (program: Program) => void;
   onBack: () => void;
   initialQuery: string;
+  initialAgencyId?: string;
 }
 
-export const ProgramsPage: React.FC<ProgramsPageProps> = ({ allPrograms, allAgencies, onProgramSelect, onBack, initialQuery }) => {
+export const ProgramsPage: React.FC<ProgramsPageProps> = ({ allPrograms, allAgencies, onProgramSelect, onBack, initialQuery, initialAgencyId }) => {
   const [searchQuery, setSearchQuery] = useState(initialQuery);
   const [selectedDestination, setSelectedDestination] = useState('');
-  const [selectedAgency, setSelectedAgency] = useState('');
+  const [selectedAgency, setSelectedAgency] = useState(initialAgencyId || '');
   const [selectedCertifications, setSelectedCertifications] = useState<string[]>([]);
   const [selectedVerifications, setSelectedVerifications] = useState<string[]>([]);
   const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
