@@ -1,4 +1,5 @@
 
+
 import React, { useState, useMemo, useEffect } from 'react';
 import { Program, Agency } from '../types';
 import { ProgramCard } from '../components/ProgramCard';
@@ -84,8 +85,13 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({ allPrograms, allAgen
   
   return (
     <div className="bg-gray-50 min-h-[calc(100vh-250px)]">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <button onClick={onBack} className="mb-8 text-[#66CDAA] hover:text-[#5F9EA0] font-semibold">&larr; Voltar</button>
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="text-center mb-12">
+            <h1 className="text-4xl font-extrabold text-gray-900">Programas de Intercâmbio</h1>
+            <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-600">
+                Encontre a jornada perfeita para você. Explore centenas de programas verificados, com foco na sua segurança e bem-estar.
+            </p>
+        </div>
         
         <div className="bg-white p-6 rounded-lg shadow-md mb-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
@@ -167,9 +173,8 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({ allPrograms, allAgen
           </div>
         </div>
 
-        <div className="text-left mb-10">
-          <h1 className="text-3xl font-bold text-gray-800">Programas de Intercâmbio</h1>
-          <p className="mt-2 text-lg text-gray-600">
+        <div className="mb-6">
+          <p className="text-lg text-gray-600">
             {filteredPrograms.length} programa(s) encontrado(s).
           </p>
         </div>
