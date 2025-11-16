@@ -59,7 +59,7 @@ export const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ course, rela
             <div className="mt-8 bg-emerald-50 border-l-4 border-emerald-500 p-4 rounded-r-lg">
                 <h3 className="text-lg font-semibold text-emerald-800">Oferta Especial: 100% de Desconto!</h3>
                 <p className="mt-2 text-emerald-700">
-                    Este {course.type.toLowerCase()} é gratuito ao contratar o programa de intercâmbio "<span className="font-semibold">{relatedProgram.name}</span>".
+                    Este {course.type.toLowerCase()} tem 100% de desconto ao contratar o programa de intercâmbio "<span className="font-semibold">{relatedProgram.name}</span>".
                 </p>
             </div>
           </div>

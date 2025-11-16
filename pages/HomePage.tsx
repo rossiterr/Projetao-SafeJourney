@@ -77,12 +77,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onProgramSelect, onNavigate,
        <div className="bg-[#66cdaa]/10 py-16">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8 text-center">
                 <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-lg transition-shadow cursor-pointer" onClick={() => onNavigate('map')}>
-                    <h3 className="text-2xl font-bold text-[#5F9EA0]">Mapa Interativo de Segurança</h3>
-                    <p className="mt-2 text-gray-600">Explore destinos com base em feedbacks reais de segurança de outras intercambistas.</p>
+                    <h3 className="text-2xl font-bold text-[#5F9EA0]">Mapa Interativo de Avaliações</h3>
+                    <p className="mt-2 text-gray-600">Explore destinos com base em feedbacks reais de avaliações de outras intercambistas.</p>
                 </div>
                 <div className="bg-white p-8 rounded-lg shadow-sm hover:shadow-lg transition-shadow cursor-pointer" onClick={() => onNavigate('hub')}>
                     <h3 className="text-2xl font-bold text-[#5F9EA0]">Hub de Conhecimento e Cursos</h3>
-                    <p className="mt-2 text-gray-600">Acesse cursos e mentorias gratuitas para se preparar para sua jornada.</p>
+                    <p className="mt-2 text-gray-600">Acesse cursos e mentorias para se preparar para sua jornada.</p>
                 </div>
             </div>
         </div>
