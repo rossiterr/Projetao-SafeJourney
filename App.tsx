@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Page, Program, Agency, Course, User } from './types';
+import { Page, Program, Agency, Course, User, ContentPageData } from './types';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
@@ -64,11 +64,6 @@ const AgencyDetailPage: React.FC<{
   );
 };
 
-interface ContentPageData {
-    title: string;
-    body: string[];
-}
-
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('home');
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
@@ -132,9 +127,9 @@ const App: React.FC = () => {
     navigate(page);
   };
 
-  const handleContentNavigate = (page: 'contentPage', data: ContentPageData) => {
+  const handleNavigateToContent = (data: ContentPageData) => {
       setContentPageData(data);
-      navigate(page);
+      navigate('contentPage');
   }
   
   const handleSearch = (query: string) => {
@@ -178,6 +173,7 @@ const App: React.FC = () => {
             onBack={handleBack} 
             onReport={() => setReportModalOpen(true)} 
             onInfoRequest={handleInfoRequest}
+            onNavigateToContent={handleNavigateToContent}
           />;
         }
         return <HomePage onProgramSelect={handleProgramSelect} onNavigate={handleNavigate} onSearch={handleSearch}/>;
@@ -210,7 +206,7 @@ const App: React.FC = () => {
         return <KnowledgeHubPage courses={courses} programs={programs} onCourseSelect={handleCourseSelect} onProgramSelect={handleProgramSelect} />;
       case 'contentPage':
         if (contentPageData) {
-            return <ContentPage title={contentPageData.title} body={contentPageData.body} onBack={handleBack} />;
+            return <ContentPage data={contentPageData} onBack={handleBack} />;
         }
         return <HomePage onProgramSelect={handleProgramSelect} onNavigate={handleNavigate} onSearch={handleSearch}/>;
       case 'login':
@@ -232,7 +228,7 @@ const App: React.FC = () => {
       <main className="flex-grow">
         {renderPage()}
       </main>
-      <Footer onNavigate={handleContentNavigate} />
+      <Footer onNavigateToContent={handleNavigateToContent} />
       {selectedProgram && (
         <ReportModal 
           isOpen={isReportModalOpen} 

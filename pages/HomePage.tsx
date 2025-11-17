@@ -1,7 +1,4 @@
 
-
-
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Program } from '../types';
 import { ProgramCard } from '../components/ProgramCard';
@@ -100,7 +97,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onProgramSelect, onNavigate,
   };
 
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 w-full overflow-x-hidden">
       {/* Hero Section */}
       <div className="relative bg-white overflow-hidden">
         <img 

@@ -126,7 +126,7 @@ export const feedbacks: Feedback[] = Array.from({ length: 300 }, (_, i) => {
     return {
         id: i + 1,
         author: `${getRandom(firstNames)} ${getRandom(lastNames)[0]}.`,
-        avatar: `https://i.pravatar.cc/150?img=${i % 70}`, // 70 different images
+        avatar: `https://loremflickr.com/150/150/woman,portrait?lock=${i}`,
         rating: rating,
         comment: comment,
         date: `202${randomInt(2, 4)}-${String(randomInt(1, 12)).padStart(2, '0')}-${String(randomInt(1, 28)).padStart(2, '0')}`,

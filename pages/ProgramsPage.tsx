@@ -83,7 +83,7 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({ allPrograms, allAgen
   };
   
   return (
-    <div className="bg-gray-50">
+    <div className="bg-gray-50 overflow-x-hidden">
       <div className="relative bg-white overflow-hidden">
         <div className="relative flex flex-col justify-center items-center py-20 md:pt-40 pb-12 px-4 sm:px-6 lg:px-8">
             <img 

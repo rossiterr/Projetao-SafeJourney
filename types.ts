@@ -62,4 +62,20 @@ export interface User {
   avatar: string;
 }
 
+export interface ContentSectionItem {
+  subtitle: string;
+  text: string;
+}
+
+export interface ContentSection {
+  title: string;
+  content: ContentSectionItem[];
+}
+
+export interface ContentPageData {
+  title: string;
+  sections: ContentSection[];
+}
+
+
 export type Page = 'home' | 'programs' | 'programDetail' | 'map' | 'hub' | 'agencyDetail' | 'contentPage' | 'courseDetail' | 'login';

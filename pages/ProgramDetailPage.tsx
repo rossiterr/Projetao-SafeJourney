@@ -1,17 +1,20 @@
 
 
 import React from 'react';
-import { Program } from '../types';
+import { Program, ContentPageData } from '../types';
 import { VerifiedSeal } from '../components/VerifiedSeal';
 import { CheckmarkIcon } from '../components/icons/CheckmarkIcon';
 import { StarIcon } from '../components/icons/StarIcon';
 import { WarningIcon } from '../components/icons/WarningIcon';
+import { ProgramFeatures } from '../components/FeatureIcons';
+import { certificationsContent } from '../data/contentData';
 
 interface ProgramDetailPageProps {
   program: Program;
   onBack: () => void;
   onReport: () => void;
   onInfoRequest: (program: Program) => void;
+  onNavigateToContent: (data: ContentPageData) => void;
 }
 
 const RatingStars: React.FC<{ rating: number }> = ({ rating }) => (
@@ -22,8 +25,10 @@ const RatingStars: React.FC<{ rating: number }> = ({ rating }) => (
   </div>
 );
 
-export const ProgramDetailPage: React.FC<ProgramDetailPageProps> = ({ program, onBack, onReport, onInfoRequest }) => {
+export const ProgramDetailPage: React.FC<ProgramDetailPageProps> = ({ program, onBack, onReport, onInfoRequest, onNavigateToContent }) => {
   const avgRating = program.feedbacks.reduce((acc, curr) => acc + curr.rating, 0) / program.feedbacks.length;
+  const agencyCertifications = program.agency.certifications || [];
+  const programVerifications = program.verifications || [];
 
   return (
     <div className="bg-white">
@@ -46,6 +51,34 @@ export const ProgramDetailPage: React.FC<ProgramDetailPageProps> = ({ program, o
                 }
             </div>
             <p className="text-lg text-gray-700 mt-4">{program.longDescription}</p>
+
+            <div className="mt-8 border-t pt-6">
+                <div className="flex justify-between items-center mb-4">
+                    <h3 className="text-xl font-semibold text-gray-800">Diferenciais da Agência e Programa</h3>
+                    <button 
+                        onClick={() => onNavigateToContent(certificationsContent)}
+                        className="text-sm font-semibold text-[#66CDAA] hover:text-[#5F9EA0] transition-colors"
+                    >
+                        Saiba mais &rarr;
+                    </button>
+                </div>
+                <div className="space-y-4">
+                {(agencyCertifications.length > 0 || programVerifications.length > 0) && (
+                    <div className="space-y-4">
+                        {agencyCertifications.length > 0 && (
+                            <div className="flex items-center">
+                                <ProgramFeatures features={agencyCertifications} />
+                            </div>
+                        )}
+                        {programVerifications.length > 0 && (
+                            <div className={`flex items-center ${agencyCertifications.length > 0 ? 'mt-3 pt-3 border-t border-gray-100' : ''}`}>
+                                <ProgramFeatures features={programVerifications} />
+                            </div>
+                        )}
+                    </div>
+                )}
+                </div>
+            </div>
 
             {program.agency.isVerified && (
                 <div className="mt-8 bg-[#66CDAA]/10 border-l-4 border-[#66CDAA] p-4 rounded-r-lg">
