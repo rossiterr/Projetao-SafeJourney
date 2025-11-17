@@ -97,13 +97,24 @@ export const InteractiveMapPage: React.FC<InteractiveMapPageProps> = ({ cities, 
   const currentStyle = selectedCity ? statusStyles[selectedCity.safetyStatus] : null;
 
   return (
-    <div className="bg-gray-100">
-       <div className="bg-white border-b border-gray-200 p-3 text-center">
-          <p className="text-sm text-gray-700 container mx-auto">
-              O mapa de avaliações é baseado em feedbacks agregados e anônimos de usuárias. Todas as informações passam por um processo de verificação antes de serem publicadas.
-          </p>
+    <div className="bg-gray-50">
+      <div className="relative bg-white overflow-hidden">
+        <div className="relative flex flex-col items-center md:pt-40 pb-72 px-4 sm:px-6 py-20 lg:px-8 text-center">
+          <img
+            src="https://images.unsplash.com/photo-1528642474498-1af0c17fd8c3?q=80&w=2574&auto=format&fit=crop"
+            alt="Mulher segurando um mapa, planejando sua viagem com confiança."
+            className="absolute inset-0 w-full h-full object-cover opacity-20"
+            aria-hidden="true"
+          />
+          <div className="relative container mx-auto">
+            <h1 className="text-4xl font-extrabold text-gray-900">Mapa Interativo de Avaliações</h1>
+            <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-600">
+              Explore destinos com base em feedbacks reais e verificados de outras intercambistas. Navegue com confiança e encontre o lugar ideal para sua jornada.
+            </p>
+          </div>
+        </div>
       </div>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="flex flex-col md:flex-row gap-8">
             {/* Map Area */}
             <div className="w-full md:flex-grow h-[600px] rounded-lg overflow-hidden shadow-lg">
@@ -150,7 +161,7 @@ export const InteractiveMapPage: React.FC<InteractiveMapPageProps> = ({ cities, 
                 </div>
                 ) : (
                 <div className="flex flex-col items-center justify-center h-full">
-                    <svg className="w-16 h-16 text-gray-400 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+                    <svg className="w-16 h-16 text-gray-400 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="o 0 24 24" strokeWidth={1.5} stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z" />
                     </svg>

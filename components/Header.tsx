@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
 import { Logo } from './Logo';
+import { User } from '../types';
 
-type NavigablePage = 'home' | 'programs' | 'map' | 'hub';
+type NavigablePage = 'home' | 'programs' | 'map' | 'hub' | 'login';
 
 interface HeaderProps {
     onNavigate: (page: NavigablePage) => void;
-    activePage: NavigablePage;
+    activePage: 'home' | 'programs' | 'map' | 'hub';
+    currentUser: User | null;
+    onLogout: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage }) => {
+export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage, currentUser, onLogout }) => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const navItems: { page: NavigablePage, label: string }[] = [
+  const navItems: { page: 'home' | 'programs' | 'map' | 'hub', label: string }[] = [
     { page: 'home', label: 'Início' },
     { page: 'programs', label: 'Programas' },
     { page: 'map', label: 'Mapa de Avaliações' },
@@ -29,8 +32,8 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage }) => {
           <div className="flex-shrink-0 cursor-pointer" onClick={() => onNavigate('home')}>
             <Logo />
           </div>
-          <div className="hidden md:block">
-            <div className="ml-10 flex items-baseline space-x-8">
+          <div className="hidden md:flex items-center">
+            <div className="flex items-baseline space-x-8">
               {navItems.map(item => (
                 <button 
                   key={item.page}
@@ -41,6 +44,26 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage }) => {
                   <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-[#66CDAA] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out ${activePage === item.page ? 'scale-x-100' : ''}`}></span>
                 </button>
               ))}
+            </div>
+            <div className="ml-12">
+                {currentUser ? (
+                  <div className="flex items-center gap-4">
+                    <img src={currentUser.avatar} alt={currentUser.name} className="w-10 h-10 rounded-full object-cover shadow-sm"/>
+                    <button
+                        onClick={onLogout}
+                        className="px-5 py-2 bg-red-600 text-white font-semibold rounded-md shadow-md hover:bg-red-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
+                    >
+                        Sair
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                      onClick={() => onNavigate('login')}
+                      className="px-5 py-2 bg-cyan-600 text-white font-semibold rounded-md shadow-md hover:bg-cyan-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                  >
+                      Entrar
+                  </button>
+                )}
             </div>
           </div>
           <div className="-mr-2 flex md:hidden">
@@ -80,6 +103,34 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage }) => {
                 {item.label}
                 </button>
             ))}
+             <div className="border-t my-2"></div>
+              {currentUser ? (
+                <div className="pt-2 pb-1 space-y-2">
+                    <div className="flex items-center gap-3 px-3 py-2">
+                        <img src={currentUser.avatar} alt={currentUser.name} className="w-10 h-10 rounded-full object-cover"/>
+                        <span className="font-medium text-gray-800">{currentUser.name}</span>
+                    </div>
+                    <button
+                        onClick={() => {
+                            onLogout();
+                            setMobileMenuOpen(false);
+                        }}
+                        className="w-full text-center block px-3 py-2 rounded-md text-base font-medium bg-red-600 text-white hover:bg-red-700"
+                    >
+                        Sair
+                    </button>
+                </div>
+              ) : (
+                <button
+                  onClick={() => {
+                      onNavigate('login');
+                      setMobileMenuOpen(false);
+                  }}
+                  className="w-full text-center block px-3 py-2 rounded-md text-base font-medium bg-cyan-600 text-white hover:bg-cyan-700"
+                >
+                  Entrar
+                </button>
+              )}
             </div>
         </div>
       )}

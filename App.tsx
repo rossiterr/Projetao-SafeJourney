@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Page, Program, Agency, Course } from './types';
+import { Page, Program, Agency, Course, User } from './types';
 import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { HomePage } from './pages/HomePage';
@@ -13,6 +13,7 @@ import { CheckmarkIcon } from './components/icons/CheckmarkIcon';
 import { ProgramCard } from './components/ProgramCard';
 import { ContentPage } from './pages/ContentPage';
 import { CourseDetailPage } from './pages/CourseDetailPage';
+import { LoginPage } from './pages/LoginPage';
 
 
 const AgencyDetailPage: React.FC<{
@@ -76,14 +77,24 @@ const App: React.FC = () => {
   const [initialQuery, setInitialQuery] = useState('');
   const [initialAgencyId, setInitialAgencyId] = useState('');
   const [contentPageData, setContentPageData] = useState<ContentPageData | null>(null);
-  
   const [history, setHistory] = useState<Page[]>(['home']);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
 
   const navigate = useCallback((page: Page) => {
     setHistory(prev => (prev[prev.length - 1] !== page ? [...prev, page] : prev));
     setCurrentPage(page);
     window.scrollTo(0, 0);
   }, []);
+
+  const handleLogin = (user: User) => {
+    setCurrentUser(user);
+    navigate('home');
+  };
+
+  const handleLogout = () => {
+    setCurrentUser(null);
+    navigate('home');
+  };
 
   const handleBack = () => {
     const newHistory = [...history];
@@ -109,7 +120,7 @@ const App: React.FC = () => {
     navigate('agencyDetail');
   };
 
-  const handleNavigate = (page: 'home' | 'programs' | 'map' | 'hub') => {
+  const handleNavigate = (page: 'home' | 'programs' | 'map' | 'hub' | 'login') => {
     if (page === 'programs') {
         setInitialQuery('');
         setInitialAgencyId('');
@@ -192,6 +203,8 @@ const App: React.FC = () => {
             return <ContentPage title={contentPageData.title} body={contentPageData.body} onBack={handleBack} />;
         }
         return <HomePage onProgramSelect={handleProgramSelect} onNavigate={handleNavigate} onSearch={handleSearch}/>;
+      case 'login':
+        return <LoginPage onBack={() => navigate('home')} onLogin={handleLogin} />;
       case 'home':
       default:
         return <HomePage onProgramSelect={handleProgramSelect} onNavigate={handleNavigate} onSearch={handleSearch} />;
@@ -200,7 +213,12 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <Header onNavigate={handleNavigate} activePage={getActivePageForHeader()} />
+      <Header 
+        onNavigate={handleNavigate} 
+        activePage={getActivePageForHeader()}
+        currentUser={currentUser}
+        onLogout={handleLogout}
+      />
       <main className="flex-grow">
         {renderPage()}
       </main>

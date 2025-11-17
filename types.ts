@@ -56,4 +56,10 @@ export interface Course {
   discountPercentage?: number;
 }
 
-export type Page = 'home' | 'programs' | 'programDetail' | 'map' | 'hub' | 'agencyDetail' | 'contentPage' | 'courseDetail';
+export interface User {
+  name: string;
+  email: string;
+  avatar: string;
+}
+
+export type Page = 'home' | 'programs' | 'programDetail' | 'map' | 'hub' | 'agencyDetail' | 'contentPage' | 'courseDetail' | 'login';

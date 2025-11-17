@@ -2,6 +2,7 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { Course, Program } from '../types';
 import { CourseCard } from '../components/CourseCard';
 import { ArrowUpIcon } from '../components/icons/ArrowUpIcon';
+import { ChevronDownIcon } from '../components/icons/ChevronDownIcon';
 
 interface KnowledgeHubPageProps {
     courses: Course[];
@@ -15,6 +16,9 @@ export const KnowledgeHubPage: React.FC<KnowledgeHubPageProps> = ({ courses, pro
     const [selectedType, setSelectedType] = useState('');
     const [selectedPartner, setSelectedPartner] = useState('');
     const [showScrollTop, setShowScrollTop] = useState(false);
+    const [showAdvancedFilters, setShowAdvancedFilters] = useState(false);
+    const [selectedOffer, setSelectedOffer] = useState<'discounted' | 'free' | ''>('');
+    const [selectedInstructor, setSelectedInstructor] = useState('');
 
     useEffect(() => {
         const checkScrollTop = () => {
@@ -39,6 +43,12 @@ export const KnowledgeHubPage: React.FC<KnowledgeHubPageProps> = ({ courses, pro
         return Array.from(partners).sort();
     }, [courses]);
 
+    const uniqueInstructors = useMemo(() => {
+        const instructors = new Set<string>();
+        courses.forEach(c => instructors.add(c.instructor));
+        return Array.from(instructors).sort();
+    }, [courses]);
+
     const filteredCourses = useMemo(() => {
         const lowerCaseQuery = searchQuery.toLowerCase();
         return courses.filter(course => {
@@ -54,20 +64,30 @@ export const KnowledgeHubPage: React.FC<KnowledgeHubPageProps> = ({ courses, pro
             const partnerMatch = selectedPartner
                 ? course.partner === selectedPartner
                 : true;
+            
+            const offerMatch = (() => {
+                if (!selectedOffer) return true;
+                if (selectedOffer === 'discounted') return course.discountPercentage && course.discountPercentage > 0;
+                if (selectedOffer === 'free') return course.discountPercentage === 100;
+                return true;
+            })();
 
-            return queryMatch && typeMatch && partnerMatch;
+            const instructorMatch = selectedInstructor
+                ? course.instructor === selectedInstructor
+                : true;
+
+            return queryMatch && typeMatch && partnerMatch && offerMatch && instructorMatch;
         });
-    }, [courses, searchQuery, selectedType, selectedPartner]);
+    }, [courses, searchQuery, selectedType, selectedPartner, selectedOffer, selectedInstructor]);
 
     return (
         <div className="bg-gray-50">
             <div className="relative bg-white overflow-hidden">
-                <div className="relative flex flex-col justify-center items-center py-20 md:pt-52 pb-12 px-4 sm:px-6 lg:px-8">
+                <div className="relative flex flex-col justify-center items-center py-20 md:pt-40 pb-12 px-4 sm:px-6 lg:px-8">
                     <img 
-                        // src="https://img.freepik.com/fotos-gratis/foto-vertical-de-uma-mulher-asiatica-feliz-relaxando-ao-ar-livre-no-parque-lendo-seu-livro-e-sentada-debaixo-da-arvore_1258-123796.jpg?semt=ais_hybrid&w=740&q=80"
                         src="https://s2.glbimg.com/g18hv5FkXbv8BdUJ9WCD9kjkZIM=/smart/e.glbimg.com/og/ed/f/original/2022/03/08/alexandra-fuller-wkgv7i2vtzm-unsplash.jpg"
-                        alt="Mulher lendo um livro em um parque, simbolizando conhecimento e preparação."
-                        className="absolute inset-0 w-full h-full object-cover opacity-20 md:object-[center_75%]"
+                        alt="Mulher lendo um livro, simbolizando conhecimento e preparação."
+                        className="absolute inset-0 w-full h-full object-cover opacity-20 md:object-[center_85%]"
                         aria-hidden="true"
                     />
                     <div className="relative container mx-auto text-center">
@@ -105,12 +125,70 @@ export const KnowledgeHubPage: React.FC<KnowledgeHubPageProps> = ({ courses, pro
                                     {uniquePartners.map(partner => <option key={partner} value={partner}>{partner}</option>)}
                                 </select>
                             </div>
+
+                            <div className="mt-4 pt-4 border-t border-gray-200">
+                                <button
+                                onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+                                className="flex items-center justify-center w-full text-center text-sm font-semibold text-gray-700 hover:text-gray-900 transition-colors"
+                                >
+                                <span>Mais filtros</span>
+                                <ChevronDownIcon className={`w-5 h-5 ml-2 transform transition-transform duration-300 ${showAdvancedFilters ? 'rotate-180' : ''}`} />
+                                </button>
+                            </div>
+
+                            <div className={`transition-all duration-500 ease-in-out overflow-hidden ${showAdvancedFilters ? 'max-h-[500px] opacity-100 pt-4 mt-4 border-t' : 'max-h-0 opacity-0'}`}>
+                                <div className="space-y-4">
+                                <div>
+                                    <h4 className="text-sm font-semibold text-gray-600 mb-2">Filtrar por Ofertas Especiais:</h4>
+                                    <div className="flex flex-wrap gap-2">
+                                        <button
+                                            onClick={() => setSelectedOffer(prev => prev === 'discounted' ? '' : 'discounted')}
+                                            className={`px-3 py-1 text-xs font-medium rounded-full border transition-colors ${
+                                                selectedOffer === 'discounted'
+                                                    ? 'bg-[#5F9EA0] text-white border-[#5F9EA0]'
+                                                    : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100'
+                                            }`}
+                                        >
+                                            Com Desconto
+                                        </button>
+                                        <button
+                                            onClick={() => setSelectedOffer(prev => prev === 'free' ? '' : 'free')}
+                                            className={`px-3 py-1 text-xs font-medium rounded-full border transition-colors ${
+                                                selectedOffer === 'free'
+                                                    ? 'bg-[#DAA520] text-white border-[#DAA520]'
+                                                    : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100'
+                                            }`}
+                                        >
+                                            Grátis com Programa
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <h4 className="text-sm font-semibold text-gray-600 mb-2">Filtrar por Instrutor(a):</h4>
+                                    <select
+                                        value={selectedInstructor}
+                                        onChange={e => setSelectedInstructor(e.target.value)}
+                                        className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-[#66CDAA]"
+                                    >
+                                        <option value="">Todos os Instrutores</option>
+                                        {uniqueInstructors.map(instructor => <option key={instructor} value={instructor}>{instructor}</option>)}
+                                    </select>
+                                </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
             </div>
 
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                 <div className="mb-6">
+                    <p className="text-lg text-gray-600">
+                        {filteredCourses.length} curso(s) encontrado(s).
+                    </p>
+                </div>
                 {filteredCourses.length > 0 ? (
                     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
                         {filteredCourses.map(course => {
