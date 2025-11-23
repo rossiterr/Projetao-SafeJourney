@@ -56,17 +56,17 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, program, onSelec
                             className={`
                                 mt-4 p-3 rounded-xl shadow-inner
                                 border-2 border-dashed border-rose-300
-                                bg-gradient-to-br from-green-50 to-rose-50
+                                bg-gradient-to-br from-gray-50 to-rose-50
                                 group/link transition-all duration-300
                                 ${onProgramLinkSelect ? 'cursor-pointer hover:from-green-100 hover:to-cyan-100 hover:border-solid hover:border-rose-400 hover:shadow-sm' : ''}
                             `}
                         >
                             <div className="flex justify-between items-center">
                                 <div className="min-w-0">
-                                    <p className="text-xs font-medium text-cyan-800/80">Vinculado ao programa:</p>
-                                    <p className="text-sm font-semibold text-cyan-900">{program.name}</p>
+                                    <p className="text-xs font-medium text-rose-800/80">Vinculado ao programa:</p>
+                                    <p className="text-sm font-semibold text-rose-900">{program.name}</p>
                                 </div>
-                                {onProgramLinkSelect && <ChevronRightIcon className="w-5 h-5 text-cyan-500 transition-transform group-hover/link:translate-x-0.5 flex-shrink-0 ml-2" />}
+                                {onProgramLinkSelect && <ChevronRightIcon className="w-5 h-5 text-rose-500 transition-transform group-hover/link:translate-x-0.5 flex-shrink-0 ml-2" />}
                             </div>
                         </div>
                     )}
