@@ -33,7 +33,7 @@ export const ProgramDetailPage: React.FC<ProgramDetailPageProps> = ({ program, o
   return (
     <div className="bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <button onClick={onBack} className="mb-8 text-[#66CDAA] hover:text-[#5F9EA0] font-semibold">&larr; Voltar para a busca</button>
+        <button onClick={onBack} className="mb-8 text-rose-500 hover:text-rose-400 font-semibold">&larr; Voltar para a busca</button>
 
         <div className="lg:grid lg:grid-cols-3 lg:gap-x-12">
           {/* Left Column - Image and Core Info */}
@@ -57,7 +57,7 @@ export const ProgramDetailPage: React.FC<ProgramDetailPageProps> = ({ program, o
                     <h3 className="text-xl font-semibold text-gray-800">Diferenciais da Agência e Programa</h3>
                     <button 
                         onClick={() => onNavigateToContent(certificationsContent)}
-                        className="text-sm font-semibold text-[#66CDAA] hover:text-[#5F9EA0] transition-colors"
+                        className="text-sm font-semibold text-rose-500 hover:text-rose-400 transition-colors"
                     >
                         Saiba mais &rarr;
                     </button>
@@ -81,9 +81,9 @@ export const ProgramDetailPage: React.FC<ProgramDetailPageProps> = ({ program, o
             </div>
 
             {program.agency.isVerified && (
-                <div className="mt-8 bg-[#66CDAA]/10 border-l-4 border-[#66CDAA] p-4 rounded-r-lg">
-                    <h3 className="text-lg font-semibold text-[#5F9EA0]">Motivos do Selo de Verificação SafeJourney</h3>
-                    <p className="mt-2 text-[#5F9EA0]">{program.agency.verificationReason}</p>
+                <div className="mt-8 bg-rose-500/10 border-l-4 border-rose-400 p-4 rounded-r-lg">
+                    <h3 className="text-lg font-semibold text-rose-400">Motivos do Selo de Verificação Woman GO Safe</h3>
+                    <p className="mt-2 text-rose-400">{program.agency.verificationReason}</p>
                 </div>
             )}
           </div>
@@ -99,7 +99,7 @@ export const ProgramDetailPage: React.FC<ProgramDetailPageProps> = ({ program, o
                 <ul className="mt-3 space-y-2">
                   {program.includes.map((item, index) => (
                     <li key={index} className="flex items-start">
-                      <CheckmarkIcon className="w-5 h-5 text-[#66CDAA] mr-2 flex-shrink-0 mt-1" />
+                      <CheckmarkIcon className="w-5 h-5 text-rose-500 mr-2 flex-shrink-0 mt-1" />
                       <span className="text-gray-700">{item}</span>
                     </li>
                   ))}
@@ -107,7 +107,7 @@ export const ProgramDetailPage: React.FC<ProgramDetailPageProps> = ({ program, o
               </div>
               <button 
                 onClick={() => onInfoRequest(program)}
-                className="mt-8 w-full bg-[#66CDAA] text-white font-bold py-3 px-4 rounded-lg hover:bg-[#5F9EA0] transition-transform transform hover:scale-105">
+                className="mt-8 w-full bg-rose-500 text-white font-bold py-3 px-4 rounded-lg hover:bg-rose-400 transition-transform transform hover:scale-105">
                 Solicitar Informações
               </button>
             </div>

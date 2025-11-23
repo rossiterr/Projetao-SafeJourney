@@ -107,12 +107,12 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({ allPrograms, allAgen
                         value={searchQuery}
                         onChange={e => setSearchQuery(e.target.value)}
                         placeholder="Buscar por nome, tipo..."
-                        className="w-full px-4 py-3 text-base text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-[#66CDAA]"
+                        className="w-full px-4 py-3 text-base text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-400"
                         />
                         <select
                         value={selectedDestination}
                         onChange={e => setSelectedDestination(e.target.value)}
-                        className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-[#66CDAA]"
+                        className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-400"
                         >
                         <option value="">Todos os Destinos</option>
                         {uniqueDestinations.map(dest => <option key={dest} value={dest}>{dest}</option>)}
@@ -120,7 +120,7 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({ allPrograms, allAgen
                         <select
                         value={selectedAgency}
                         onChange={e => setSelectedAgency(e.target.value)}
-                        className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-[#66CDAA]"
+                        className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-400"
                         >
                         <option value="">Todas as Agências</option>
                         {allAgencies.sort((a,b) => a.name.localeCompare(b.name)).map(agency => <option key={agency.id} value={agency.id}>{agency.name}</option>)}
@@ -148,7 +148,7 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({ allPrograms, allAgen
                                 onClick={() => toggleCertification(cert)}
                                 className={`px-3 py-1 text-xs font-medium rounded-full border transition-colors ${
                                     selectedCertifications.includes(cert)
-                                        ? 'bg-[#5F9EA0] text-white border-[#5F9EA0]'
+                                        ? 'bg-rose-400 text-white border-[#5F9EA0]'
                                         : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100'
                                 }`}
                                 >
@@ -209,7 +209,7 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({ allPrograms, allAgen
       {showScrollTop && (
         <button
           onClick={scrollTop}
-          className="fixed bottom-8 right-8 bg-[#66CDAA] text-white p-3 rounded-full shadow-lg hover:bg-[#5F9EA0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#66CDAA] transition-opacity duration-300 z-50"
+          className="fixed bottom-8 right-8 bg-rose-500 text-white p-3 rounded-full shadow-lg hover:bg-rose-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 transition-opacity duration-300 z-50"
           aria-label="Ir para o topo"
         >
           <ArrowUpIcon className="w-6 h-6" />

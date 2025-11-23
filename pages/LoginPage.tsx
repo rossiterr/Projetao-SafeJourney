@@ -84,10 +84,10 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBack, onLogin }) => {
         }, 3000);
     };
 
-    const inputClasses = "w-full px-4 py-3 text-base text-gray-900 placeholder-gray-500 bg-gray-100 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-transparent";
-    const buttonClasses = "w-full px-8 py-3 bg-[#66CDAA] text-white font-bold rounded-md shadow-md hover:bg-[#5F9EA0] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#66CDAA]";
+    const inputClasses = "w-full px-4 py-3 text-base text-gray-900 placeholder-gray-500 bg-gray-100 border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent";
+    const buttonClasses = "w-full px-8 py-3 bg-rose-500 text-white font-bold rounded-md shadow-md hover:bg-rose-400 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500";
     const tabBaseClasses = "w-1/2 py-3 text-center font-semibold cursor-pointer transition-colors duration-300";
-    const tabActiveClasses = "text-[#66CDAA] border-b-2 border-[#66CDAA]";
+    const tabActiveClasses = "text-rose-500 border-b-2 border-rose-400";
     const tabInactiveClasses = "text-gray-500 hover:text-gray-700";
 
     const renderContent = () => {
@@ -180,7 +180,7 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBack, onLogin }) => {
                             </div>
                             <div className="flex items-center justify-end">
                                 <div className="text-sm">
-                                    <button type="button" onClick={() => setView('forgot')} className="font-medium text-[#66CDAA] hover:text-[#5F9EA0]">
+                                    <button type="button" onClick={() => setView('forgot')} className="font-medium text-rose-500 hover:text-rose-400">
                                         Esqueceu sua senha?
                                     </button>
                                 </div>
