@@ -28,7 +28,7 @@ const AgencyDetailPage: React.FC<{
   return (
     <div className="bg-gray-50 min-h-[calc(100vh-250px)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <button onClick={onBack} className="mb-8 text-[#66CDAA] hover:text-[#5F9EA0] font-semibold">&larr; Voltar para Agências</button>
+        <button onClick={onBack} className="mb-8 text-rose-500 hover:text-rose-400 font-semibold">&larr; Voltar para Agências</button>
         
         <div className="bg-white p-8 rounded-xl shadow-lg mb-12">
             <h1 className="text-4xl font-extrabold text-gray-900">{agency.name}</h1>
@@ -38,7 +38,7 @@ const AgencyDetailPage: React.FC<{
                 <ul className="space-y-3">
                     {agency.certifications?.map(cert => (
                         <li key={cert} className="flex items-center text-gray-800">
-                        <CheckmarkIcon className="w-6 h-6 text-[#66CDAA] mr-3 flex-shrink-0" />
+                        <CheckmarkIcon className="w-6 h-6 text-rose-500 mr-3 flex-shrink-0" />
                         <span>{cert}</span>
                         </li>
                     ))}
