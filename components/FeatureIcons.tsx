@@ -99,12 +99,12 @@ const StarIcon: React.FC<{ className?: string }> = ({ className = "w-5 h-5" }) =
 const featureMap: { [key: string]: { Icon: React.FC<any>; colorClasses: string } } = {
   // Certifications
   "Suporte Local 24/7": { Icon: PhoneIcon, colorClasses: 'bg-teal-100 text-teal-600' },
-  "Acomodações Seguras Verificadas": { Icon: HomeIcon, colorClasses: 'bg-cyan-100 text-cyan-600' },
+  "Acomodações Seguras Verificadas": { Icon: HomeIcon, colorClasses: 'bg-cyan-100 text-bg-rose-400' },
   "Treinamento Pré-Partida Abrangente": { Icon: AcademicCapIcon, colorClasses: 'bg-blue-100 text-blue-600' },
   "Transparência Financeira Total": { Icon: BanknotesIcon, colorClasses: 'bg-green-100 text-green-600' },
   "Parcerias Comunitárias Éticas": { Icon: UsersIcon, colorClasses: 'bg-indigo-100 text-indigo-600' },
   // Verifications
-  "Selo SafeJourney Premium": { Icon: TrophyIcon, colorClasses: 'bg-amber-100 text-amber-600' },
+  "Selo Woman GO Safe Premium": { Icon: TrophyIcon, colorClasses: 'bg-amber-100 text-amber-600' },
   "Ideal para Primeira Viagem": { Icon: SparklesIcon, colorClasses: 'bg-yellow-100 text-yellow-600' },
   "Foco em Liderança Feminina": { Icon: UserGroupIcon, colorClasses: 'bg-pink-100 text-pink-600' },
   "Imersão Cultural Profunda": { Icon: GlobeAltIcon, colorClasses: 'bg-orange-100 text-orange-600' },
@@ -112,7 +112,7 @@ const featureMap: { [key: string]: { Icon: React.FC<any>; colorClasses: string }
   "Acessibilidade para PCD": { Icon: AccessibilityIcon, colorClasses: 'bg-gray-100 text-gray-600' },
   "Programa Sustentável e Ecológico": { Icon: LeafIcon, colorClasses: 'bg-lime-100 text-lime-600' },
   "Oportunidades de Networking": { Icon: ShareIcon, colorClasses: 'bg-sky-100 text-sky-600' },
-  "Flexibilidade de Datas e Pagamento": { Icon: CalendarDaysIcon, colorClasses: 'bg-rose-100 text-rose-600' },
+  "Flexibilidade de Datas e Pagamento": { Icon: CalendarDaysIcon, colorClasses: 'bg-rose-100 text-rose-400' },
   "Avaliação Excepcional das Alunas": { Icon: StarIcon, colorClasses: 'bg-amber-100 text-amber-600' },
 };
 

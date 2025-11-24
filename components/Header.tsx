@@ -22,8 +22,8 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage, currentU
   ];
 
   const baseClasses = "relative px-1 py-2 text-md font-medium transition-colors duration-300 ease-in-out group";
-  const inactiveClasses = "text-gray-600 hover:text-[#66CDAA]";
-  const activeClasses = "text-[#66CDAA]";
+  const inactiveClasses = "text-gray-600 hover:text-rose-500";
+  const activeClasses = "text-rose-500";
 
   return (
     <header className="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-[2000]">
@@ -41,7 +41,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage, currentU
                   className={`${baseClasses} ${activePage === item.page ? activeClasses : inactiveClasses}`}
                 >
                   <span>{item.label}</span>
-                  <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-[#66CDAA] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out ${activePage === item.page ? 'scale-x-100' : ''}`}></span>
+                  <span className={`absolute bottom-0 left-0 w-full h-0.5 bg-rose-500 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-in-out ${activePage === item.page ? 'scale-x-100' : ''}`}></span>
                 </button>
               ))}
             </div>
@@ -59,7 +59,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage, currentU
                 ) : (
                   <button
                       onClick={() => onNavigate('login')}
-                      className="px-5 py-2 bg-cyan-600 text-white font-semibold rounded-md shadow-md hover:bg-cyan-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
+                      className="px-5 py-2 bg-rose-400 text-white font-semibold rounded-md shadow-md hover:bg-cyan-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500"
                   >
                       Entrar
                   </button>
@@ -70,7 +70,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage, currentU
             <button
               onClick={() => setMobileMenuOpen(!isMobileMenuOpen)}
               type="button"
-              className="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#66CDAA]"
+              className="bg-white inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
               aria-controls="mobile-menu"
               aria-expanded="false"
             >
@@ -98,7 +98,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage, currentU
                     onNavigate(item.page);
                     setMobileMenuOpen(false);
                 }}
-                className={`w-full text-left block px-3 py-2 rounded-md text-base font-medium ${activePage === item.page ? 'bg-[#66CDAA] text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}
+                className={`w-full text-left block px-3 py-2 rounded-md text-base font-medium ${activePage === item.page ? 'bg-rose-500 text-white' : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'}`}
                 >
                 {item.label}
                 </button>
@@ -126,7 +126,7 @@ export const Header: React.FC<HeaderProps> = ({ onNavigate, activePage, currentU
                       onNavigate('login');
                       setMobileMenuOpen(false);
                   }}
-                  className="w-full text-center block px-3 py-2 rounded-md text-base font-medium bg-cyan-600 text-white hover:bg-cyan-700"
+                  className="w-full text-center block px-3 py-2 rounded-md text-base font-medium bg-rose-400 text-white hover:bg-cyan-700"
                 >
                   Entrar
                 </button>

@@ -26,7 +26,7 @@ export const ProgramCard: React.FC<ProgramCardProps> = ({ program, onSelect }) =
         )}
       </div>
       <div className="p-6 flex flex-col flex-grow">
-        <div className="uppercase tracking-wide text-sm text-[#66CDAA] font-semibold">{program.agency.name}</div>
+        <div className="uppercase tracking-wide text-sm text-rose-500 font-semibold">{program.agency.name}</div>
         <h3 className="block mt-1 text-lg leading-tight font-bold text-black hover:underline">{program.name}</h3>
         <p className="mt-2 text-gray-500 flex-grow">{program.shortDescription}</p>
         

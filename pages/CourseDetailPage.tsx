@@ -46,12 +46,12 @@ export const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ course, rela
   return (
     <div className="bg-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <button onClick={onBack} className="mb-8 text-[#66CDAA] hover:text-[#5F9EA0] font-semibold">&larr; Voltar para o Hub</button>
+        <button onClick={onBack} className="mb-8 text-rose-500 hover:text-rose-400 font-semibold">&larr; Voltar para o Hub</button>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-12">
           {/* Left Column - Details */}
           <div className="lg:col-span-3">
-            <span className={`inline-block px-3 py-1 text-sm font-semibold uppercase rounded-full mb-3 ${course.type === 'Curso' ? 'bg-[#66cdaa]/20 text-[#5f9ea0]' : 'bg-[#daa520]/20 text-[#b8860b]'}`}>
+            <span className={`inline-block px-3 py-1 text-sm font-semibold uppercase rounded-full mb-3 ${course.type === 'Curso' ? 'bg-rose-100/bg-pink-100 text-rose-400' : 'bg-[#daa520]/20 text-[#b8860b]'}`}>
               {course.type}
             </span>
             <h1 className="text-4xl font-extrabold text-gray-900">{course.title}</h1>
@@ -111,7 +111,7 @@ export const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ course, rela
                         <ul className="space-y-3">
                             {agency.certifications.map(cert => (
                                 <li key={cert} className="flex items-center text-gray-800">
-                                <CheckmarkIcon className="w-6 h-6 text-[#66CDAA] mr-3 flex-shrink-0" />
+                                <CheckmarkIcon className="w-6 h-6 text-rose-500 mr-3 flex-shrink-0" />
                                 <span>{cert}</span>
                                 </li>
                             ))}
@@ -120,7 +120,7 @@ export const CourseDetailPage: React.FC<CourseDetailPageProps> = ({ course, rela
                 )}
                  <button 
                     onClick={() => onViewAgencyPrograms(agency.id)}
-                    className="mt-8 bg-[#5F9EA0] text-white font-bold py-3 px-6 rounded-lg hover:bg-[#66CDAA] transition-all duration-300 transform hover:scale-105">
+                    className="mt-8 bg-rose-400 text-white font-bold py-3 px-6 rounded-lg hover:bg-rose-500 transition-all duration-300 transform hover:scale-105">
                     Ver Todos os Programas da Agência
                 </button>
             </div>

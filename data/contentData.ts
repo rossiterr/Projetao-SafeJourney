@@ -32,7 +32,7 @@ export const certificationsContent: ContentPageData = {
       title: "Selos de Verificação do Programa",
       content: [
         {
-          subtitle: "Selo SafeJourney Premium",
+          subtitle: "Selo Woman GO Safe Premium",
           text: "Programas que atingem o mais alto padrão de excelência em todos os nossos critérios de avaliação, oferecendo uma experiência excepcional."
         },
         {

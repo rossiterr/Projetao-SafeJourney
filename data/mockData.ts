@@ -10,7 +10,7 @@ export const CERTIFICATIONS = [
 ];
 
 export const VERIFICATIONS = [
-  "Selo SafeJourney Premium",
+  "Selo Woman GO Safe Premium",
   "Ideal para Primeira Viagem",
   "Foco em Liderança Feminina",
   "Imersão Cultural Profunda",
@@ -100,7 +100,7 @@ export const agencies: Agency[] = Array.from({ length: 20 }, (_, i) => {
         id: i + 1,
         name: agencyNames[i],
         isVerified: isTopAgency || Math.random() > 0.4,
-        verificationReason: isTopAgency ? "Verificada por excelência em segurança, suporte e transparência, cumprindo todos os rigorosos critérios da SafeJourney." : "Verificada pela SafeJourney por bom histórico de feedback e compromisso com a segurança das alunas.",
+        verificationReason: isTopAgency ? "Verificada por excelência em segurança, suporte e transparência, cumprindo todos os rigorosos critérios da Woman GO Safe." : "Verificada pela Woman GO Safe por bom histórico de feedback e compromisso com a segurança das alunas.",
         description: `Agência especializada em ${getRandom(programSubjects)} e ${getRandom(programSubjects)}.`,
         certifications: certs,
     };
@@ -205,7 +205,7 @@ export const citySafetyData: CitySafetyData[] = uniqueCities.map((cityInfo, i) =
 });
 
 // --- KNOWLEDGE HUB COURSES ---
-const coursePartners = ["Equipe SafeJourney", "Global Connect Institute", "Smart Money Abroad", "Alumni SafeJourney", "Career Builders", "Cultural Insights Co."];
+const coursePartners = ["Equipe Woman GO Safe", "Global Connect Institute", "Smart Money Abroad", "Alumni Woman GO Safe", "Career Builders", "Cultural Insights Co."];
 const courseInstructors = ["Maria Reis", "Dra. Aiko Tanaka", "Chloe Davis", "Ana Pereira", "Juliana Costa", "Renata Alves", "Beatriz Lima", "Carla Martins"];
 
 const discounts = [30, 35, 40, 45, 50];
@@ -239,7 +239,7 @@ export const courses: Course[] = programs.flatMap((program, index) => {
         title: `Mentoria de Carreira em ${program.destinationCity}`,
         description: `Conecte-se com uma mentora que já viveu a experiência de intercâmbio em ${program.destinationCity} e receba conselhos práticos para alavancar sua carreira durante e após o programa.`,
         instructor: getRandom(courseInstructors),
-        partner: "Alumni SafeJourney",
+        partner: "Alumni Woman GO Safe",
         price: Math.round(program.price * 0.1),
         programId: program.id,
         discountPercentage: getDiscount(),

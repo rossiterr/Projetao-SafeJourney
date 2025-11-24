@@ -27,7 +27,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, program, onSelec
         >
             <div className="p-6 flex flex-col flex-grow">
                 <div className="flex justify-between items-start">
-                    <span className={`inline-block px-3 py-1 text-xs font-semibold uppercase rounded-full ${course.type === 'Curso' ? 'bg-[#66cdaa]/20 text-[#5f9ea0]' : 'bg-[#daa520]/20 text-[#b8860b]'}`}>
+                    <span className={`inline-block px-3 py-1 text-xs font-semibold uppercase rounded-full ${course.type === 'Curso' ? 'bg-rose-100/bg-pink-100 text-rose-400' : 'bg-[#daa520]/20 text-[#b8860b]'}`}>
                         {course.type}
                     </span>
                     
@@ -55,18 +55,18 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, program, onSelec
                             onClick={handleProgramClick}
                             className={`
                                 mt-4 p-3 rounded-xl shadow-inner
-                                border-2 border-dashed border-cyan-300
-                                bg-gradient-to-br from-green-50 to-cyan-50
+                                border-2 border-dashed border-rose-300
+                                bg-gradient-to-br from-gray-50 to-rose-50
                                 group/link transition-all duration-300
-                                ${onProgramLinkSelect ? 'cursor-pointer hover:from-green-100 hover:to-cyan-100 hover:border-solid hover:border-cyan-400 hover:shadow-sm' : ''}
+                                ${onProgramLinkSelect ? 'cursor-pointer hover:from-green-100 hover:to-cyan-100 hover:border-solid hover:border-rose-400 hover:shadow-sm' : ''}
                             `}
                         >
                             <div className="flex justify-between items-center">
                                 <div className="min-w-0">
-                                    <p className="text-xs font-medium text-cyan-800/80">Vinculado ao programa:</p>
-                                    <p className="text-sm font-semibold text-cyan-900">{program.name}</p>
+                                    <p className="text-xs font-medium text-rose-800/80">Vinculado ao programa:</p>
+                                    <p className="text-sm font-semibold text-rose-900">{program.name}</p>
                                 </div>
-                                {onProgramLinkSelect && <ChevronRightIcon className="w-5 h-5 text-cyan-500 transition-transform group-hover/link:translate-x-0.5 flex-shrink-0 ml-2" />}
+                                {onProgramLinkSelect && <ChevronRightIcon className="w-5 h-5 text-rose-500 transition-transform group-hover/link:translate-x-0.5 flex-shrink-0 ml-2" />}
                             </div>
                         </div>
                     )}
@@ -79,7 +79,7 @@ export const CourseCard: React.FC<CourseCardProps> = ({ course, program, onSelec
             </div>
             <div className="p-6 bg-gray-50">
                 <div 
-                    className="w-full bg-[#66CDAA] text-white font-bold py-2 px-4 rounded-md text-center transition-colors duration-300 group-hover:bg-[#5F9EA0]">
+                    className="w-full bg-rose-500 text-white font-bold py-2 px-4 rounded-md text-center transition-colors duration-300 group-hover:bg-rose-400">
                     Saber Mais
                 </div>
             </div>

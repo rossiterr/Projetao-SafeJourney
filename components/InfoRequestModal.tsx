@@ -53,23 +53,23 @@ export const InfoRequestModal: React.FC<InfoRequestModalProps> = ({ isOpen, onCl
                 <form onSubmit={handleSubmit} className="space-y-4">
                   <div>
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
-                    <input type="text" id="name" name="name" value={name} onChange={e => setName(e.target.value)} className="mt-1 focus:ring-[#66CDAA] focus:border-[#66CDAA] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-50 p-3 text-gray-900" required />
+                    <input type="text" id="name" name="name" value={name} onChange={e => setName(e.target.value)} className="mt-1 focus:ring-rose-500 focus:border-rose-400 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-50 p-3 text-gray-900" required />
                   </div>
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-                    <input type="email" id="email" name="email" value={email} onChange={e => setEmail(e.target.value)} className="mt-1 focus:ring-[#66CDAA] focus:border-[#66CDAA] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-50 p-3 text-gray-900" required />
+                    <input type="email" id="email" name="email" value={email} onChange={e => setEmail(e.target.value)} className="mt-1 focus:ring-rose-500 focus:border-rose-400 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-50 p-3 text-gray-900" required />
                   </div>
                    <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Telefone (Opcional)</label>
-                    <input type="tel" id="phone" name="phone" className="mt-1 focus:ring-[#66CDAA] focus:border-[#66CDAA] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-50 p-3 text-gray-900" />
+                    <input type="tel" id="phone" name="phone" className="mt-1 focus:ring-rose-500 focus:border-rose-400 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-50 p-3 text-gray-900" />
                   </div>
                   <div>
                     <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Mensagem (Opcional)</label>
-                    <textarea id="message" name="message" rows={3} className="mt-1 focus:ring-[#66CDAA] focus:border-[#66CDAA] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-50 p-3 text-gray-900" placeholder="Gostaria de saber mais sobre..."></textarea>
+                    <textarea id="message" name="message" rows={3} className="mt-1 focus:ring-rose-500 focus:border-rose-400 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-50 p-3 text-gray-900" placeholder="Gostaria de saber mais sobre..."></textarea>
                   </div>
                   <div className="flex justify-end space-x-3 pt-2">
                       <button type="button" onClick={onClose} className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">Cancelar</button>
-                      <button type="submit" className="bg-[#66CDAA] text-white px-4 py-2 rounded-md hover:bg-[#5F9EA0] transition-colors">Enviar Solicitação</button>
+                      <button type="submit" className="bg-rose-500 text-white px-4 py-2 rounded-md hover:bg-rose-400 transition-colors">Enviar Solicitação</button>
                   </div>
                 </form>
             </>

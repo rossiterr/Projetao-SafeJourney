@@ -43,7 +43,7 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, progr
                 <form onSubmit={handleSubmit}>
                 <div className="mb-4">
                     <label htmlFor="reason" className="block text-sm font-medium text-gray-700 mb-1">Motivo da Denúncia</label>
-                    <select id="reason" name="reason" className="mt-1 block w-full pl-3 pr-10 py-3 text-base text-gray-900 bg-gray-50 border-gray-300 focus:outline-none focus:ring-[#66CDAA] focus:border-[#66CDAA] sm:text-sm rounded-md" required>
+                    <select id="reason" name="reason" className="mt-1 block w-full pl-3 pr-10 py-3 text-base text-gray-900 bg-gray-50 border-gray-300 focus:outline-none focus:ring-rose-500 focus:border-rose-400 sm:text-sm rounded-md" required>
                     <option>Informação enganosa</option>
                     <option>Problema de segurança</option>
                     <option>Falta de suporte</option>
@@ -53,11 +53,11 @@ export const ReportModal: React.FC<ReportModalProps> = ({ isOpen, onClose, progr
                 </div>
                 <div className="mb-4">
                     <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">Data do Incidente</label>
-                    <input type="date" id="date" name="date" className="mt-1 focus:ring-[#66CDAA] focus:border-[#66CDAA] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-50 p-3 text-gray-900" required />
+                    <input type="date" id="date" name="date" className="mt-1 focus:ring-rose-500 focus:border-rose-400 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-50 p-3 text-gray-900" required />
                 </div>
                 <div className="mb-6">
                     <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-1">Descrição Detalhada</label>
-                    <textarea id="description" name="description" rows={4} className="mt-1 focus:ring-[#66CDAA] focus:border-[#66CDAA] block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-50 p-3 text-gray-900" placeholder="Por favor, descreva o que aconteceu..." required></textarea>
+                    <textarea id="description" name="description" rows={4} className="mt-1 focus:ring-rose-500 focus:border-rose-400 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md bg-gray-50 p-3 text-gray-900" placeholder="Por favor, descreva o que aconteceu..." required></textarea>
                 </div>
                 <div className="flex justify-end space-x-3">
                     <button type="button" onClick={onClose} className="bg-gray-200 text-gray-800 px-4 py-2 rounded-md hover:bg-gray-300 transition-colors">Cancelar</button>

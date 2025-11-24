@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="./components/safeJourneyLogo.png" alt="Logo SafeJourney" width="120" />
-  <img src="./components/SafeJourney-Title.png" alt="Logo SafeJourney" width="400" />
+  <img src="./components/WomanGoSafeLogo.png" alt="Logo" width="120" />
+  <img src="./components/WomanGoSafeTitle.png" alt="Logo" width="400" />
   
   **Explore o mundo com confiança. Feito por mulheres, para mulheres.**
 
@@ -17,14 +17,14 @@
 
 ## 🌸 Sobre o Projeto
 
-O **SafeJourney** é uma plataforma de agendamento de intercâmbios focada exclusivamente na segurança e empoderamento feminino. Entendemos que viajar sozinha pode ser desafiador, por isso conectamos mulheres a agências e programas rigorosamente verificados.
+O **Woman GO Safe** é uma plataforma de agendamento de intercâmbios focada exclusivamente na segurança e empoderamento feminino. Entendemos que viajar sozinha pode ser desafiador, por isso conectamos mulheres a agências e programas rigorosamente verificados.
 
 Este repositório contém o **MVP (Minimum Viable Product)** da aplicação, simulando um ecossistema completo com busca de programas, avaliações de segurança baseadas em geolocalização e um hub de conhecimento.
 
 ## ✨ Funcionalidades
 
 * **🔍 Busca Inteligente de Programas:** Filtros avançados por destino, tipo de intercâmbio (curso, voluntariado, estágio) e agência.
-* **🛡️ Selo de Verificação SafeJourney:** Sistema visual que destaca agências com suporte 24/7, liderança feminina e acomodações seguras.
+* **🛡️ Selo de Verificação Woman GO Safe:** Sistema visual que destaca agências com suporte 24/7, liderança feminina e acomodações seguras.
 * **🗺️ Mapa Interativo de Segurança:** Utilizando `Leaflet`, visualizamos cidades com classificações de segurança (Verde, Amarelo, Vermelho) baseadas em feedbacks reais de usuárias.
 * **📚 Hub de Conhecimento:** Catálogo de cursos preparatórios e mentorias para auxiliar na adaptação cultural e carreira.
 * **💬 Sistema de Avaliação e Feedback:** Transparência total com comentários e notas de quem já viajou.
@@ -112,5 +112,5 @@ Distribuído sob a licença MIT. Veja `LICENSE` para mais informações.
 
 ---
 <div align="center">
-  Feito com 💜 pela equipe <b>SafeJourney</b>
+  Feito com 💜 pela equipe <b>Woman GO Safe</b>
 </div>

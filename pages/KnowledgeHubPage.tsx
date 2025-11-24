@@ -93,7 +93,7 @@ export const KnowledgeHubPage: React.FC<KnowledgeHubPageProps> = ({ courses, pro
                     <div className="relative container mx-auto text-center">
                         <h1 className="text-4xl font-extrabold text-gray-900">Hub de Conhecimento</h1>
                         <p className="mt-4 max-w-3xl mx-auto text-lg text-gray-600">
-                            Cursos e mentorias para empoderar sua jornada. Desenvolvido pela equipe SafeJourney e nossos parceiros.
+                            Cursos e mentorias para empoderar sua jornada. Desenvolvido pela equipe Woman GO Safe e nossos parceiros.
                         </p>
                     </div>
                     
@@ -105,12 +105,12 @@ export const KnowledgeHubPage: React.FC<KnowledgeHubPageProps> = ({ courses, pro
                                     value={searchQuery}
                                     onChange={e => setSearchQuery(e.target.value)}
                                     placeholder="Buscar por nome, descrição..."
-                                    className="w-full px-4 py-3 text-base text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-[#66CDAA]"
+                                    className="w-full px-4 py-3 text-base text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-400"
                                 />
                                 <select
                                     value={selectedType}
                                     onChange={e => setSelectedType(e.target.value)}
-                                    className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-[#66CDAA]"
+                                    className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-400"
                                 >
                                     <option value="">Todos os Tipos</option>
                                     <option value="Curso">Curso</option>
@@ -119,7 +119,7 @@ export const KnowledgeHubPage: React.FC<KnowledgeHubPageProps> = ({ courses, pro
                                 <select
                                     value={selectedPartner}
                                     onChange={e => setSelectedPartner(e.target.value)}
-                                    className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-[#66CDAA]"
+                                    className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-400"
                                 >
                                     <option value="">Todos os Parceiros</option>
                                     {uniquePartners.map(partner => <option key={partner} value={partner}>{partner}</option>)}
@@ -145,7 +145,7 @@ export const KnowledgeHubPage: React.FC<KnowledgeHubPageProps> = ({ courses, pro
                                             onClick={() => setSelectedOffer(prev => prev === 'discounted' ? '' : 'discounted')}
                                             className={`px-3 py-1 text-xs font-medium rounded-full border transition-colors ${
                                                 selectedOffer === 'discounted'
-                                                    ? 'bg-[#5F9EA0] text-white border-[#5F9EA0]'
+                                                    ? 'bg-rose-400 text-white border-[#5F9EA0]'
                                                     : 'bg-white text-gray-600 border-gray-300 hover:bg-gray-100'
                                             }`}
                                         >
@@ -169,7 +169,7 @@ export const KnowledgeHubPage: React.FC<KnowledgeHubPageProps> = ({ courses, pro
                                     <select
                                         value={selectedInstructor}
                                         onChange={e => setSelectedInstructor(e.target.value)}
-                                        className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-[#66CDAA]"
+                                        className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-400"
                                     >
                                         <option value="">Todos os Instrutores</option>
                                         {uniqueInstructors.map(instructor => <option key={instructor} value={instructor}>{instructor}</option>)}
@@ -217,7 +217,7 @@ export const KnowledgeHubPage: React.FC<KnowledgeHubPageProps> = ({ courses, pro
             {showScrollTop && (
                 <button
                     onClick={scrollTop}
-                    className="fixed bottom-8 right-8 bg-[#66CDAA] text-white p-3 rounded-full shadow-lg hover:bg-[#5F9EA0] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#66CDAA] transition-opacity duration-300 z-50"
+                    className="fixed bottom-8 right-8 bg-rose-500 text-white p-3 rounded-full shadow-lg hover:bg-rose-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500 transition-opacity duration-300 z-50"
                     aria-label="Ir para o topo"
                 >
                     <ArrowUpIcon className="w-6 h-6" />

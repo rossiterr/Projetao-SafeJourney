@@ -41,7 +41,7 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({ allPrograms, allAgen
   return (
     <div className="bg-gray-50 min-h-[calc(100vh-250px)]">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <button onClick={onBack} className="mb-8 text-[#66CDAA] hover:text-[#5F9EA0] font-semibold">&larr; Voltar</button>
+        <button onClick={onBack} className="mb-8 text-rose-500 hover:text-rose-400 font-semibold">&larr; Voltar</button>
         
         <div className="bg-white p-6 rounded-lg shadow-md mb-10 sticky top-24 z-30">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
@@ -50,12 +50,12 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({ allPrograms, allAgen
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Buscar por nome, tipo..."
-              className="w-full px-4 py-3 text-base text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-[#66CDAA]"
+              className="w-full px-4 py-3 text-base text-gray-900 placeholder-gray-500 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-400"
             />
             <select
               value={selectedDestination}
               onChange={e => setSelectedDestination(e.target.value)}
-              className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-[#66CDAA]"
+              className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-400"
             >
               <option value="">Todos os Destinos</option>
               {uniqueDestinations.map(dest => <option key={dest} value={dest}>{dest}</option>)}
@@ -63,7 +63,7 @@ export const ProgramsPage: React.FC<ProgramsPageProps> = ({ allPrograms, allAgen
              <select
               value={selectedAgency}
               onChange={e => setSelectedAgency(e.target.value)}
-              className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-[#66CDAA]"
+              className="w-full px-4 py-3 text-base text-gray-900 bg-gray-100 border border-gray-200 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-400"
             >
               <option value="">Todas as Agências</option>
               {allAgencies.sort((a,b) => a.name.localeCompare(b.name)).map(agency => <option key={agency.id} value={agency.id}>{agency.name}</option>)}

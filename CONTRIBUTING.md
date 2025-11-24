@@ -1,6 +1,6 @@
-# Guia de Contribuição - SafeJourney
+# Guia de Contribuição - Woman GO Safe
 
-Olá! Ficamos muito felizes com seu interesse em contribuir para o **SafeJourney**. 🎉
+Olá! Ficamos muito felizes com seu interesse em contribuir para o **Woman GO Safe**. 🎉
 
 Este documento serve como um guia para ajudá-lo a contribuir de forma eficaz, garantindo que o código permaneça limpo, testável e alinhado com a nossa missão de segurança e qualidade.
 

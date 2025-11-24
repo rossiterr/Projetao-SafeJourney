@@ -109,10 +109,10 @@ export const HomePage: React.FC<HomePageProps> = ({ onProgramSelect, onNavigate,
         <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-32 text-center">
             <h1 className="text-4xl md:text-6xl font-extrabold text-gray-900 tracking-tight">
                 <span className="block">Sua Jornada de Intercâmbio,</span>
-                <span className="block text-[#66CDAA]">com Segurança e Confiança.</span>
+                <span className="block text-rose-500">com Segurança e Confiança.</span>
             </h1>
             <p className="mt-6 max-w-2xl mx-auto text-lg md:text-xl text-gray-600">
-                A SafeJourney é a sua plataforma para encontrar programas de intercâmbio verificados, feita por mulheres, para mulheres.
+                A Woman GO Safe é a sua plataforma para encontrar programas de intercâmbio verificados, feita por mulheres, para mulheres.
             </p>
             <div className="mt-8 max-w-xl mx-auto">
                 <form className="flex flex-col sm:flex-row gap-3" onSubmit={handleSearchSubmit}>
@@ -121,12 +121,12 @@ export const HomePage: React.FC<HomePageProps> = ({ onProgramSelect, onNavigate,
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         placeholder="Busque por Destino ou tipo de intercâmbio"
-                        className="flex-grow w-full px-5 py-3 text-base text-gray-900 placeholder-gray-500 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-[#66CDAA] focus:border-[#66CDAA]"
+                        className="flex-grow w-full px-5 py-3 text-base text-gray-900 placeholder-gray-500 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-rose-400"
                         aria-label="Search for exchange programs"
                     />
                     <button
                         type="submit"
-                        className="px-8 py-3 bg-[#66CDAA] text-white font-bold rounded-md shadow-md hover:bg-[#5F9EA0] transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-[#66CDAA]"
+                        className="px-8 py-3 bg-rose-500 text-white font-bold rounded-md shadow-md hover:bg-rose-400 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-rose-500"
                     >
                         Buscar
                     </button>
@@ -147,7 +147,7 @@ export const HomePage: React.FC<HomePageProps> = ({ onProgramSelect, onNavigate,
           <div className="mt-12 text-center">
             <button
                 onClick={() => onNavigate('programs')}
-                className="px-8 py-3 bg-[#5F9EA0] text-white font-bold rounded-md shadow-md hover:bg-[#66CDAA] transition-all duration-300 transform hover:scale-105"
+                className="px-8 py-3 bg-rose-400 text-white font-bold rounded-md shadow-md hover:bg-rose-500 transition-all duration-300 transform hover:scale-105"
             >
                 Ver todos os programas
             </button>
@@ -156,15 +156,15 @@ export const HomePage: React.FC<HomePageProps> = ({ onProgramSelect, onNavigate,
       </div>
       
        {/* Feature Links Section */}
-       <div className="bg-[#66cdaa]/10 py-16">
+       <div className="bg-rose-500/10 py-16">
             <div className="container mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-2 gap-8 text-center">
                 <div className="relative bg-white p-8 rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 cursor-pointer overflow-hidden" onClick={() => onNavigate('map')}>
                     <img src="https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=2531&auto=format&fit=crop" alt="Mapa mundi decorativo em uma parede de tijolos" className="absolute inset-0 w-full h-full object-cover opacity-10" />
                     <div className="relative">
                         <div className="flex justify-center mb-4">
-                            <MapPinIcon className="w-12 h-12 text-[#5F9EA0]" />
+                            <MapPinIcon className="w-12 h-12 text-rose-400" />
                         </div>
-                        <h3 className="text-2xl font-bold text-[#5F9EA0]">Mapa Interativo de Avaliações</h3>
+                        <h3 className="text-2xl font-bold text-rose-400">Mapa Interativo de Avaliações</h3>
                         <p className="mt-2 text-gray-600">Explore destinos com base em feedbacks reais de avaliações de outras intercambistas.</p>
                     </div>
                 </div>
@@ -172,9 +172,9 @@ export const HomePage: React.FC<HomePageProps> = ({ onProgramSelect, onNavigate,
                     <img src="https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=2670&auto=format&fit=crop" alt="Fundo de biblioteca" className="absolute inset-0 w-full h-full object-cover opacity-10" />
                     <div className="relative">
                         <div className="flex justify-center mb-4">
-                            <BookOpenIcon className="w-12 h-12 text-[#5F9EA0]" />
+                            <BookOpenIcon className="w-12 h-12 text-rose-400" />
                         </div>
-                        <h3 className="text-2xl font-bold text-[#5F9EA0]">Hub de Conhecimento e Cursos</h3>
+                        <h3 className="text-2xl font-bold text-rose-400">Hub de Conhecimento e Cursos</h3>
                         <p className="mt-2 text-gray-600">Acesse cursos e mentorias para se preparar para sua jornada.</p>
                     </div>
                 </div>
