@@ -1,5 +1,7 @@
 import React from 'react';
 import { ContentPageData } from '../types';
+import { FeatureIcon } from '../components/FeatureIcons';
+import { certificationsContent } from '../data/contentData';
 
 interface ContentPageProps {
   data: ContentPageData;
@@ -14,14 +16,28 @@ export const ContentPage: React.FC<ContentPageProps> = ({ data, onBack }) => {
         <h1 className="text-4xl font-bold text-gray-800 mb-8 border-b pb-4">{data.title}</h1>
         
         <div className="space-y-12">
-          {data.sections.map((section, sectionIndex) => (
-            <section key={sectionIndex}>
-              {section.title && <h2 className="text-2xl font-bold text-gray-700 mb-6">{section.title}</h2>}
-              <div className="space-y-6">
-                {section.content.map((item, itemIndex) => (
-                  <div key={itemIndex}>
-                    {item.subtitle && <h3 className="text-lg font-semibold text-rose-400">{item.subtitle}</h3>}
-                    <p className={`mt-1 text-gray-600 ${!item.subtitle ? 'text-lg' : ''}`}>{item.text}</p>
+          {certificationsContent.sections.map((section, idx) => (
+            <section key={idx} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 md:p-10">
+              <h2 className="text-2xl font-bold text-gray-800 mb-8 border-b border-gray-100 pb-4">
+                {section.title}
+              </h2>
+              
+              <div className="grid md:grid-cols-2 gap-x-12 gap-y-10">
+                {section.content.map((item, itemIdx) => (
+                  <div key={itemIdx} className="flex flex-col gap-3">
+                    {/* AQUI ESTÁ A MUDANÇA: O cabeçalho agora tem o ícone e o título */}
+                    <div className="flex items-center gap-3">
+                      <div className="flex-shrink-0 transform scale-90 origin-left">
+                        <FeatureIcon name={item.subtitle} />
+                      </div>
+                      <h3 className="text-lg font-bold text-gray-900">
+                        {item.subtitle}
+                      </h3>
+                    </div>
+                    
+                    <p className="text-gray-600 leading-relaxed pl-[44px]">
+                      {item.text}
+                    </p>
                   </div>
                 ))}
               </div>

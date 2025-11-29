@@ -4,7 +4,7 @@ import { ShieldCheckIcon } from './icons/ShieldCheckIcon';
 export const VerifiedSeal: React.FC = () => {
   return (
     <div 
-      className="relative group flex items-center justify-center bg-rose-400/40 backdrop-blur-sm text-[#DAA520] w-9 h-9 rounded-full shadow-md"
+      className="relative group flex items-center justify-center bg-rose-400/40 backdrop-blur-sm text-emerald w-9 h-9 rounded-full shadow-md"
     >
       <ShieldCheckIcon className="w-5 h-5" />
       <div 

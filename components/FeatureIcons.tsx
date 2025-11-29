@@ -174,7 +174,7 @@ const featureMap: { [key: string]: { Icon: React.FC<any>; colorClasses: string }
 
 // --- Single Icon Component ---
 
-const FeatureIcon: React.FC<{ name: string }> = ({ name }) => {
+export const FeatureIcon: React.FC<{ name: string }> = ({ name }) => {
   const feature = featureMap[name];
   if (!feature) return null;
 
