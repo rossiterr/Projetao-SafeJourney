@@ -1,20 +1,22 @@
-
-
 import React from 'react';
-import { Program, ContentPageData } from '../types';
+import { Program, ContentPageData, Course } from '../types';
 import { VerifiedSeal } from '../components/VerifiedSeal';
 import { CheckmarkIcon } from '../components/icons/CheckmarkIcon';
 import { StarIcon } from '../components/icons/StarIcon';
 import { WarningIcon } from '../components/icons/WarningIcon';
 import { ProgramFeatures } from '../components/FeatureIcons';
 import { certificationsContent } from '../data/contentData';
+import { CourseCard } from '../components/CourseCard';
 
 interface ProgramDetailPageProps {
   program: Program;
+  courses: Course[]; // nova prop
   onBack: () => void;
   onReport: () => void;
   onInfoRequest: (program: Program) => void;
   onNavigateToContent: (data: ContentPageData) => void;
+  onCourseSelect: (course: Course) => void; // nova prop
+  onNavigateToHub: () => void; // nova prop: usada pelo botão "Ver todos os cursos"
 }
 
 const RatingStars: React.FC<{ rating: number }> = ({ rating }) => (
@@ -25,10 +27,22 @@ const RatingStars: React.FC<{ rating: number }> = ({ rating }) => (
   </div>
 );
 
-export const ProgramDetailPage: React.FC<ProgramDetailPageProps> = ({ program, onBack, onReport, onInfoRequest, onNavigateToContent }) => {
-  const avgRating = program.feedbacks.reduce((acc, curr) => acc + curr.rating, 0) / program.feedbacks.length;
+export const ProgramDetailPage: React.FC<ProgramDetailPageProps> = ({ 
+  program, 
+  courses, 
+  onBack, 
+  onReport, 
+  onInfoRequest, 
+  onNavigateToContent,
+  onCourseSelect,
+  onNavigateToHub
+}) => {
+  const avgRating = program.feedbacks.reduce((acc, curr) => acc + curr.rating, 0) / (program.feedbacks.length || 1);
   const agencyCertifications = program.agency.certifications || [];
   const programVerifications = program.verifications || [];
+
+  // Filtra os cursos vinculados a este programa
+  const programCourses = courses.filter(c => c.programId === program.id);
 
   return (
     <div className="bg-white">
@@ -40,52 +54,100 @@ export const ProgramDetailPage: React.FC<ProgramDetailPageProps> = ({ program, o
           <div className="lg:col-span-2 relative z-10">
             <img src={program.image} alt={program.name} className="w-full h-96 object-cover rounded-lg shadow-lg mb-6" />
             <div className="flex justify-between items-center mb-4">
-                <div>
-                    <h1 className="text-4xl font-extrabold text-gray-900">{program.name}</h1>
-                    <p className="mt-2 text-xl text-gray-600">Oferecido por <span className="font-bold">{program.agency.name}</span></p>
+              <div>
+                <h1 className="text-4xl font-extrabold text-gray-900">{program.name}</h1>
+                <p className="mt-2 text-xl text-gray-600">Oferecido por <span className="font-bold">{program.agency.name}</span></p>
+              </div>
+              {program.agency.isVerified && (
+                <div className="flex-shrink-0 ml-4">
+                  <VerifiedSeal />
                 </div>
-                {program.agency.isVerified && 
-                  <div className="flex-shrink-0 ml-4">
-                    <VerifiedSeal />
-                  </div>
-                }
+              )}
             </div>
             <p className="text-lg text-gray-700 mt-4">{program.longDescription}</p>
 
             <div className="mt-8 border-t pt-6">
-                <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-xl font-semibold text-gray-800">Diferenciais da Agência e Programa</h3>
-                    <button 
-                        onClick={() => onNavigateToContent(certificationsContent)}
-                        className="text-sm font-semibold text-rose-500 hover:text-rose-400 transition-colors"
-                    >
-                        Saiba mais &rarr;
-                    </button>
-                </div>
-                <div className="space-y-4">
-                {(agencyCertifications.length > 0 || programVerifications.length > 0) && (
-                    <div className="space-y-4">
-                        {agencyCertifications.length > 0 && (
-                            <div className="flex items-center">
-                                <ProgramFeatures features={agencyCertifications} />
-                            </div>
-                        )}
-                        {programVerifications.length > 0 && (
-                            <div className={`flex items-center ${agencyCertifications.length > 0 ? 'mt-3 pt-3 border-t border-gray-100' : ''}`}>
-                                <ProgramFeatures features={programVerifications} />
-                            </div>
-                        )}
-                    </div>
-                )}
-                </div>
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-semibold text-gray-800">Diferenciais da Agência e Programa</h3>
+                <button 
+                  onClick={() => onNavigateToContent(certificationsContent)}
+                  className="text-sm font-semibold text-rose-500 hover:text-rose-400 transition-colors"
+                >
+                  Saiba mais &rarr;
+                </button>
+              </div>
+
+              {/* Aqui podem ficar ícones / features */}
+              <ProgramFeatures features={[...agencyCertifications, ...programVerifications]} />
             </div>
 
-            {program.agency.isVerified && (
-                <div className="mt-8 bg-rose-500/10 border-l-4 border-rose-400 p-4 rounded-r-lg">
-                    <h3 className="text-lg font-semibold text-rose-400">Motivos do Selo de Verificação Woman GO Safe</h3>
-                    <p className="mt-2 text-rose-400">{program.agency.verificationReason}</p>
+            {/* Seção NOVA: Cursos relacionados a este programa */}
+            <div className="mt-10 border-t pt-6">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-2xl font-bold text-gray-900">Cursos relacionados</h2>
+                <p className="text-sm text-gray-500">{programCourses.length} curso(s)</p>
+              </div>
+
+              {programCourses.length === 0 ? (
+                <p className="text-gray-600">Nenhum curso vinculado a este programa.</p>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {programCourses.map(course => (
+                    <CourseCard 
+                      key={course.id} 
+                      course={course} 
+                      program={program} 
+                      onSelect={onCourseSelect} 
+                      onProgramLinkSelect={() => {/* opcional: navegar para programa */}} 
+                    />
+                  ))}
                 </div>
-            )}
+              )}
+              <div className="mt-4">
+                <button 
+                  onClick={onNavigateToHub} 
+                  className="text-rose-500 hover:text-rose-400 text-sm font-semibold"
+                >
+                  Ver todos os cursos &rarr;
+                </button>
+              </div>
+            </div>
+
+            {/* Feedback Section */}
+            <div className="mt-16 border-t pt-12">
+              <div className="flex justify-between items-center">
+                <h2 className="text-3xl font-bold text-gray-900">Feedbacks de Usuárias ({program.feedbacks.length})</h2>
+                <div className="flex items-center">
+                  <RatingStars rating={Math.round(avgRating)} />
+                  <span className="ml-2 text-gray-600 font-semibold">{avgRating.toFixed(1)} de 5 estrelas</span>
+                </div>
+              </div>
+              <div className="mt-8 space-y-8">
+                {program.feedbacks.map(feedback => (
+                  <div key={feedback.id} className="flex items-start space-x-4">
+                    <img className="h-12 w-12 rounded-full" src={feedback.avatar} alt={feedback.author} />
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-md font-semibold text-gray-900">{feedback.author}</p>
+                          <p className="text-sm text-gray-500">{feedback.date}</p>
+                        </div>
+                        <RatingStars rating={feedback.rating} />
+                      </div>
+                      <p className="mt-2 text-gray-700">{feedback.comment}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Report Button */}
+            <div className="mt-12 text-center border-t pt-8">
+              <button onClick={onReport} className="inline-flex items-center text-sm text-red-600 hover:text-red-800 font-semibold transition-colors">
+                <WarningIcon className="w-5 h-5 mr-2" />
+                Denunciar Agência/Programa
+              </button>
+            </div>
           </div>
 
           {/* Right Column - Booking and Details */}
@@ -112,42 +174,6 @@ export const ProgramDetailPage: React.FC<ProgramDetailPageProps> = ({ program, o
               </button>
             </div>
           </div>
-        </div>
-
-        {/* Feedback Section */}
-        <div className="mt-16 border-t pt-12">
-          <div className="flex justify-between items-center">
-            <h2 className="text-3xl font-bold text-gray-900">Feedbacks de Usuárias ({program.feedbacks.length})</h2>
-            <div className="flex items-center">
-                <RatingStars rating={Math.round(avgRating)} />
-                <span className="ml-2 text-gray-600 font-semibold">{avgRating.toFixed(1)} de 5 estrelas</span>
-            </div>
-          </div>
-          <div className="mt-8 space-y-8">
-            {program.feedbacks.map(feedback => (
-              <div key={feedback.id} className="flex items-start space-x-4">
-                <img className="h-12 w-12 rounded-full" src={feedback.avatar} alt={feedback.author} />
-                <div className="flex-1">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <p className="text-md font-semibold text-gray-900">{feedback.author}</p>
-                      <p className="text-sm text-gray-500">{feedback.date}</p>
-                    </div>
-                    <RatingStars rating={feedback.rating} />
-                  </div>
-                  <p className="mt-2 text-gray-700">{feedback.comment}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        {/* Report Button */}
-        <div className="mt-12 text-center border-t pt-8">
-            <button onClick={onReport} className="inline-flex items-center text-sm text-red-600 hover:text-red-800 font-semibold transition-colors">
-                <WarningIcon className="w-5 h-5 mr-2" />
-                Denunciar Agência/Programa
-            </button>
         </div>
       </div>
     </div>

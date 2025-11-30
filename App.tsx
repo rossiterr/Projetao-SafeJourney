@@ -200,15 +200,17 @@ const App: React.FC = () => {
           initialAgencyId={initialAgencyId}
         />;
       case 'programDetail':
-        if (selectedProgram) {
-          return <ProgramDetailPage 
-            program={selectedProgram} 
-            onBack={handleBack} 
-            onReport={() => setReportModalOpen(true)} 
-            onInfoRequest={handleInfoRequest}
-            onNavigateToContent={handleNavigateToContent}
-          />;
-        }
+          if (selectedProgram) {
+            return <ProgramDetailPage 
+              program={selectedProgram} 
+              onBack={handleBack} 
+              onReport={() => setReportModalOpen(true)} 
+              onInfoRequest={handleInfoRequest}
+              onNavigateToContent={handleNavigateToContent}
+              courses={courses}                        // <-- nova prop: lista completa de cursos
+              onCourseSelect={handleCourseSelect}      // <-- nova prop: handler ao selecionar curso
+            />;
+          }
         return <HomePage onProgramSelect={handleProgramSelect} onNavigate={handleNavigate} onSearch={handleSearch}/>;
       case 'agencyDetail':
         if (selectedAgency) {
