@@ -17,6 +17,8 @@ import { LoginPage } from './pages/LoginPage';
 import { InfoRequestModal } from './components/InfoRequestModal';
 
 
+import { AgencyDashboardPage } from './pages/AgencyDashboardPage';
+
 const AgencyDetailPage: React.FC<{
   agency: Agency;
   allPrograms: Program[];
@@ -66,6 +68,8 @@ const AgencyDetailPage: React.FC<{
 
 const App: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<Page>('home');
+  const [allPrograms, setAllPrograms] = useState<Program[]>(programs);
+  const [allCourses, setAllCourses] = useState<Course[]>(courses);
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
   const [selectedAgency, setSelectedAgency] = useState<Agency | null>(null);
   const [selectedCourse, setSelectedCourse] = useState<Course | null>(null);
@@ -87,12 +91,41 @@ const App: React.FC = () => {
 
   const handleLogin = (user: User) => {
     setCurrentUser(user);
-    navigate('home');
+    if (user.email === 'agencia@app.com.br') {
+      navigate('agencyDashboard');
+    } else {
+      navigate('home');
+    }
   };
 
   const handleLogout = () => {
     setCurrentUser(null);
     navigate('home');
+  };
+
+  // CRUD Operations for Agency Dashboard
+  const handleUpdateProgram = (updatedProgram: Program) => {
+    setAllPrograms(prev => prev.map(p => p.id === updatedProgram.id ? updatedProgram : p));
+  };
+
+  const handleAddProgram = (newProgram: Program) => {
+    setAllPrograms(prev => [...prev, newProgram]);
+  };
+
+  const handleDeleteProgram = (programId: number) => {
+    setAllPrograms(prev => prev.filter(p => p.id !== programId));
+  };
+
+  const handleUpdateCourse = (updatedCourse: Course) => {
+    setAllCourses(prev => prev.map(c => c.id === updatedCourse.id ? updatedCourse : c));
+  };
+
+  const handleAddCourse = (newCourse: Course) => {
+    setAllCourses(prev => [...prev, newCourse]);
+  };
+
+  const handleDeleteCourse = (courseId: number) => {
+    setAllCourses(prev => prev.filter(c => c.id !== courseId));
   };
 
   const handleBack = () => {
@@ -159,7 +192,7 @@ const App: React.FC = () => {
     switch (currentPage) {
       case 'programs':
         return <ProgramsPage
-          allPrograms={programs}
+          allPrograms={allPrograms}
           allAgencies={agencies}
           onProgramSelect={handleProgramSelect}
           onBack={handleBack}
@@ -181,7 +214,7 @@ const App: React.FC = () => {
         if (selectedAgency) {
             return <AgencyDetailPage
                 agency={selectedAgency}
-                allPrograms={programs}
+                allPrograms={allPrograms}
                 onProgramSelect={handleProgramSelect}
                 onBack={handleBack}
             />;
@@ -190,10 +223,10 @@ const App: React.FC = () => {
       case 'map':
         return <InteractiveMapPage cities={citySafetyData} onProgramSelect={handleProgramSelect} />;
       case 'hub':
-        return <KnowledgeHubPage courses={courses} programs={programs} onCourseSelect={handleCourseSelect} onProgramSelect={handleProgramSelect} />;
+        return <KnowledgeHubPage courses={allCourses} programs={allPrograms} onCourseSelect={handleCourseSelect} onProgramSelect={handleProgramSelect} />;
        case 'courseDetail':
         if (selectedCourse) {
-            const relatedProgram = programs.find(p => p.id === selectedCourse.programId);
+            const relatedProgram = allPrograms.find(p => p.id === selectedCourse.programId);
             if (relatedProgram) {
                 return <CourseDetailPage 
                     course={selectedCourse} 
@@ -203,12 +236,28 @@ const App: React.FC = () => {
                 />;
             }
         }
-        return <KnowledgeHubPage courses={courses} programs={programs} onCourseSelect={handleCourseSelect} onProgramSelect={handleProgramSelect} />;
+        return <KnowledgeHubPage courses={allCourses} programs={allPrograms} onCourseSelect={handleCourseSelect} onProgramSelect={handleProgramSelect} />;
       case 'contentPage':
         if (contentPageData) {
             return <ContentPage data={contentPageData} onBack={handleBack} />;
         }
         return <HomePage onProgramSelect={handleProgramSelect} onNavigate={handleNavigate} onSearch={handleSearch}/>;
+      case 'agencyDashboard':
+        // Mocking the logged-in agency as the first one for now, or finding one that matches the user if we had that link.
+        // Since the login is hardcoded, we'll use the first agency from the mock data as the "logged in" agency.
+        const loggedInAgency = agencies[0]; 
+        return <AgencyDashboardPage 
+          agency={loggedInAgency}
+          programs={allPrograms}
+          courses={allCourses}
+          onUpdateProgram={handleUpdateProgram}
+          onAddProgram={handleAddProgram}
+          onDeleteProgram={handleDeleteProgram}
+          onUpdateCourse={handleUpdateCourse}
+          onAddCourse={handleAddCourse}
+          onDeleteCourse={handleDeleteCourse}
+          onLogout={handleLogout}
+        />;
       case 'login':
         return <LoginPage onBack={() => navigate('home')} onLogin={handleLogin} />;
       case 'home':
@@ -219,16 +268,18 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-gray-50">
-      <Header 
-        onNavigate={handleNavigate} 
-        activePage={getActivePageForHeader()}
-        currentUser={currentUser}
-        onLogout={handleLogout}
-      />
+      {currentPage !== 'agencyDashboard' && (
+        <Header 
+          onNavigate={handleNavigate} 
+          activePage={getActivePageForHeader()}
+          currentUser={currentUser}
+          onLogout={handleLogout}
+        />
+      )}
       <main className="flex-grow">
         {renderPage()}
       </main>
-      <Footer onNavigateToContent={handleNavigateToContent} />
+      {currentPage !== 'agencyDashboard' && <Footer onNavigateToContent={handleNavigateToContent} />}
       {selectedProgram && (
         <ReportModal 
           isOpen={isReportModalOpen} 

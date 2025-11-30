@@ -68,11 +68,19 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBack, onLogin }) => {
 
     const handleLoginSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onLogin({
-            name: "Maria Silva",
-            email: "maria.silva@example.com",
-            avatar: "https://i.pravatar.cc/150?img=5"
-        });
+        if (email === 'agencia@app.com.br' && password === '123456') {
+             onLogin({
+                name: "Agência Exemplo",
+                email: email,
+                avatar: "https://i.pravatar.cc/150?u=agency"
+            });
+        } else {
+            onLogin({
+                name: "Maria Silva",
+                email: "maria.silva@example.com",
+                avatar: "https://i.pravatar.cc/150?img=5"
+            });
+        }
     };
 
     const handleForgotPasswordSubmit = (e: React.FormEvent) => {
@@ -172,11 +180,11 @@ export const LoginPage: React.FC<LoginPageProps> = ({ onBack, onLogin }) => {
                         <form className="space-y-6" onSubmit={handleLoginSubmit}>
                             <div>
                                 <label htmlFor="email-login" className="sr-only">Email</label>
-                                <input id="email-login" name="email" type="email" autoComplete="email" required className={inputClasses} placeholder="Seu email" />
+                                <input id="email-login" name="email" type="email" autoComplete="email" required className={inputClasses} placeholder="Seu email" value={email} onChange={e => setEmail(e.target.value)} />
                             </div>
                             <div>
                                 <label htmlFor="password-login" className="sr-only">Senha</label>
-                                <input id="password-login" name="password" type="password" autoComplete="current-password" required className={inputClasses} placeholder="Sua senha" />
+                                <input id="password-login" name="password" type="password" autoComplete="current-password" required className={inputClasses} placeholder="Sua senha" value={password} onChange={e => setPassword(e.target.value)} />
                             </div>
                             <div className="flex items-center justify-end">
                                 <div className="text-sm">
