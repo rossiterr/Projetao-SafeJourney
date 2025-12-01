@@ -202,6 +202,25 @@ export const HomePage: React.FC<HomePageProps> = ({ onProgramSelect, onNavigate,
           </div>
         </div>
       </div>
+
+      {/* Feedback CTA Section */}
+      <div className="bg-gradient-to-br from-rose-500 to-pink-600 py-16">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-3xl font-bold text-white mb-4">Ajude-nos a melhorar</h2>
+            <p className="text-rose-100 text-lg mb-8 max-w-2xl mx-auto">
+                Estamos sempre buscando evoluir nossa plataforma para garantir a melhor experiência e segurança para você. 
+                Sua opinião é muito importante.
+            </p>
+            <a 
+                href="https://forms.gle/b7HS2hcJ6a1tJxvr7" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-8 py-3 border border-transparent text-base font-bold rounded-full text-rose-600 bg-white hover:bg-gray-50 md:text-lg shadow-lg transition-transform transform hover:scale-105"
+            >
+                Responder formulário rápido
+            </a>
+        </div>
+      </div>
     </div>
   );
 };

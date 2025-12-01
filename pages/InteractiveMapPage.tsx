@@ -10,7 +10,7 @@ interface InteractiveMapPageProps {
 }
 
 const statusStyles = {
-    Green: { color: '#5f9ea0', fillColor: '#66cdaa', bgClass: 'bg-rose-100/bg-pink-100', textClass: 'text-rose-400', borderClass: 'border-rose-400', name: 'Seguro' },
+    Green: { color: '#5f9ea0', fillColor: '#66cdaa', bgClass: 'bg-emerald-100', textClass: 'text-emerald-700', borderClass: 'border-emerald-500', name: 'Seguro' },
     Yellow: { color: '#b8860b', fillColor: '#daa520', bgClass: 'bg-[#daa520]/20', textClass: 'text-[#b8860b]', borderClass: 'border-[#daa520]', name: 'Atenção' },
     Red: { color: '#c53030', fillColor: '#f56565', bgClass: 'bg-red-400/20', textClass: 'text-red-500', borderClass: 'border-red-500', name: 'Alto Risco' },
     Neutral: { color: '#718096', fillColor: '#a0aec0', bgClass: 'bg-gray-500/20', textClass: 'text-gray-500', borderClass: 'border-gray-400', name: 'Dados Insuficientes' },
