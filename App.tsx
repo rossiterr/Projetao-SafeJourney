@@ -16,6 +16,7 @@ import { ContentPage } from './pages/ContentPage';
 import { CourseDetailPage } from './pages/CourseDetailPage';
 import { LoginPage } from './pages/LoginPage';
 import { InfoRequestModal } from './components/InfoRequestModal';
+import { AboutPage } from './pages/AboutPage';
 
 
 import { AgencyDashboardPage } from './pages/AgencyDashboardPage';
@@ -249,6 +250,8 @@ const App: React.FC = () => {
             return <ContentPage data={contentPageData} onBack={handleBack} />;
         }
         return <HomePage onProgramSelect={handleProgramSelect} onNavigate={handleNavigate} onSearch={handleSearch}/>;
+      case 'about':
+        return <AboutPage />;
       case 'agencyDashboard':
         // Mocking the logged-in agency as the first one for now, or finding one that matches the user if we had that link.
         // Since the login is hardcoded, we'll use the first agency from the mock data as the "logged in" agency.

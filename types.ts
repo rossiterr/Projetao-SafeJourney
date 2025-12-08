@@ -80,4 +80,4 @@ export interface ContentPageData {
 }
 
 
-export type Page = 'home' | 'programs' | 'programDetail' | 'map' | 'hub' | 'agencyDetail' | 'contentPage' | 'courseDetail' | 'login' | 'agencyDashboard';
+export type Page = 'home' | 'programs' | 'programDetail' | 'map' | 'hub' | 'agencyDetail' | 'contentPage' | 'courseDetail' | 'login' | 'agencyDashboard' | 'about';
