@@ -39,18 +39,40 @@ export const AgencyDashboardPage: React.FC<AgencyDashboardProps> = ({
   const [viewingProgram, setViewingProgram] = useState<Program | null>(null);
   const [editingCourse, setEditingCourse] = useState<Course | null>(null);
   const [viewingCourse, setViewingCourse] = useState<Course | null>(null);
+  const [selectedProgramForFeedbacks, setSelectedProgramForFeedbacks] = useState<Program | null>(null);
+  const [isFeedbacksModalOpen, setFeedbacksModalOpen] = useState(false);
 
   // Filter data for this agency
   const myPrograms = programs.filter(p => p.agency.id === agency.id);
   const myCourses = courses.filter(c => myPrograms.some(p => p.id === c.programId));
 
-  // Stats
+  // Enhanced Stats with more details
   const totalPrograms = myPrograms.length;
   const totalCourses = myCourses.length;
   const allFeedbacks = myPrograms.flatMap(p => p.feedbacks);
+  const totalFeedbacks = allFeedbacks.length;
   const avgRating = allFeedbacks.length > 0 
     ? allFeedbacks.reduce((acc, curr) => acc + curr.rating, 0) / allFeedbacks.length 
     : 0;
+
+  // Program performance stats
+  const programStats = myPrograms.map(program => {
+    const programFeedbacks = program.feedbacks;
+    const programAvgRating = programFeedbacks.length > 0
+      ? programFeedbacks.reduce((acc, curr) => acc + curr.rating, 0) / programFeedbacks.length
+      : 0;
+    return {
+      program,
+      avgRating: programAvgRating,
+      feedbackCount: programFeedbacks.length
+    };
+  }).sort((a, b) => b.avgRating - a.avgRating);
+
+  // Get feedbacks with program context
+  const feedbacksWithProgram = allFeedbacks.map(feedback => {
+    const program = myPrograms.find(p => p.feedbacks.some(f => f.id === feedback.id));
+    return { feedback, program };
+  }).sort((a, b) => new Date(b.feedback.date).getTime() - new Date(a.feedback.date).getTime());
 
   const handleSaveProgram = (e: React.FormEvent) => {
     e.preventDefault();
@@ -167,46 +189,135 @@ export const AgencyDashboardPage: React.FC<AgencyDashboardProps> = ({
 
         {/* Content */}
         {activeTab === 'overview' && (
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-            <div className="bg-white overflow-hidden shadow-md rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-shadow">
-                <dt className="text-sm font-medium text-gray-500 truncate uppercase tracking-wider">Total de Programas</dt>
-                <dd className="mt-2 text-4xl font-extrabold text-gray-900">{totalPrograms}</dd>
+          <div>
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-8">
+              <div className="bg-gradient-to-br from-rose-500 to-pink-600 overflow-hidden shadow-lg rounded-xl p-6 text-white">
+                  <dt className="text-sm font-medium uppercase tracking-wider opacity-90">Total de Programas</dt>
+                  <dd className="mt-2 text-5xl font-extrabold">{totalPrograms}</dd>
+              </div>
+              <div className="bg-gradient-to-br from-purple-500 to-indigo-600 overflow-hidden shadow-lg rounded-xl p-6 text-white">
+                  <dt className="text-sm font-medium uppercase tracking-wider opacity-90">Cursos/Mentorias</dt>
+                  <dd className="mt-2 text-5xl font-extrabold">{totalCourses}</dd>
+              </div>
+              <div className="bg-gradient-to-br from-yellow-400 to-orange-500 overflow-hidden shadow-lg rounded-xl p-6 text-white">
+                  <dt className="text-sm font-medium uppercase tracking-wider opacity-90">Avaliação Média</dt>
+                  <dd className="mt-2 text-5xl font-extrabold flex items-center">
+                    {avgRating.toFixed(1)} <StarIcon className="w-8 h-8 ml-2" />
+                  </dd>
+              </div>
+              <div className="bg-gradient-to-br from-green-500 to-teal-600 overflow-hidden shadow-lg rounded-xl p-6 text-white">
+                  <dt className="text-sm font-medium uppercase tracking-wider opacity-90">Total de Feedbacks</dt>
+                  <dd className="mt-2 text-5xl font-extrabold">{totalFeedbacks}</dd>
+              </div>
             </div>
-            <div className="bg-white overflow-hidden shadow-md rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-shadow">
-                <dt className="text-sm font-medium text-gray-500 truncate uppercase tracking-wider">Total de Cursos</dt>
-                <dd className="mt-2 text-4xl font-extrabold text-gray-900">{totalCourses}</dd>
-            </div>
-            <div className="bg-white overflow-hidden shadow-md rounded-xl p-6 border border-gray-100 hover:shadow-lg transition-shadow">
-                <dt className="text-sm font-medium text-gray-500 truncate uppercase tracking-wider">Avaliação Média</dt>
-                <dd className="mt-2 text-4xl font-extrabold text-gray-900 flex items-center">
-                  {avgRating.toFixed(1)} <StarIcon className="w-8 h-8 text-yellow-400 ml-2" />
-                </dd>
+
+            {/* Programs Performance */}
+            <div className="mb-8">
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                <span className="w-1 h-8 bg-rose-500 mr-3 rounded"></span>
+                Desempenho dos Programas
+              </h3>
+              <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
+                {programStats.length > 0 ? (
+                  <div className="overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Programa</th>
+                          <th className="px-6 py-4 text-left text-xs font-bold text-gray-600 uppercase tracking-wider">Destino</th>
+                          <th className="px-6 py-4 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Avaliação</th>
+                          <th className="px-6 py-4 text-center text-xs font-bold text-gray-600 uppercase tracking-wider">Feedbacks</th>
+                          <th className="px-6 py-4 text-right text-xs font-bold text-gray-600 uppercase tracking-wider">Preço</th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-100">
+                        {programStats.map(({ program, avgRating, feedbackCount }) => (
+                          <tr 
+                            key={program.id} 
+                            className="hover:bg-gray-50 transition-colors cursor-pointer"
+                            onClick={() => {
+                              setSelectedProgramForFeedbacks(program);
+                              setFeedbacksModalOpen(true);
+                            }}
+                          >
+                            <td className="px-6 py-4">
+                              <div className="text-sm font-semibold text-gray-900">{program.name}</div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="text-sm text-gray-600">{program.destinationCity}, {program.destinationCountry}</div>
+                            </td>
+                            <td className="px-6 py-4 text-center">
+                              <div className="inline-flex items-center bg-yellow-50 px-3 py-1 rounded-full">
+                                <span className="text-sm font-bold text-yellow-700 mr-1">
+                                  {feedbackCount > 0 ? avgRating.toFixed(1) : 'N/A'}
+                                </span>
+                                {feedbackCount > 0 && <StarIcon className="h-4 w-4 text-yellow-400" />}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 text-center">
+                              <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-blue-100 text-blue-800">
+                                {feedbackCount}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 text-right">
+                              <span className="text-sm font-bold text-gray-900">${program.price}</span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                ) : (
+                  <div className="px-6 py-12 text-center text-gray-500">
+                    <p>Nenhum programa cadastrado ainda.</p>
+                  </div>
+                )}
+              </div>
             </div>
             
-            <div className="col-span-1 sm:col-span-3 mt-6">
-                <h3 className="text-xl font-bold text-gray-900 mb-6">Feedbacks Recentes</h3>
-                <div className="bg-white shadow-md rounded-xl overflow-hidden border border-gray-100">
-                    <ul className="divide-y divide-gray-100">
-                        {allFeedbacks.slice(0, 5).map((feedback) => (
-                            <li key={feedback.id} className="px-6 py-5 hover:bg-gray-50 transition-colors">
-                                <div className="flex items-start justify-between">
-                                    <div className="flex items-center">
-                                        <img className="h-12 w-12 rounded-full border-2 border-white shadow-sm" src={feedback.avatar} alt="" />
-                                        <div className="ml-4">
-                                            <p className="text-base font-semibold text-rose-600">{feedback.author}</p>
-                                            <p className="text-sm text-gray-600 mt-1 italic">"{feedback.comment}"</p>
-                                        </div>
-                                    </div>
-                                    <div className="flex items-center bg-yellow-50 px-3 py-1 rounded-full">
-                                        <span className="text-sm font-bold text-yellow-700 mr-1">{feedback.rating}</span>
-                                        <StarIcon className="h-4 w-4 text-yellow-400" />
-                                    </div>
-                                </div>
-                            </li>
-                        ))}
-                        {allFeedbacks.length === 0 && <li className="px-6 py-8 text-center text-gray-500">Nenhum feedback recebido ainda.</li>}
-                    </ul>
-                </div>
+            {/* Recent Feedbacks with Program Context */}
+            <div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4 flex items-center">
+                <span className="w-1 h-8 bg-rose-500 mr-3 rounded"></span>
+                Feedbacks Recentes
+              </h3>
+              <div className="bg-white shadow-lg rounded-xl overflow-hidden border border-gray-100">
+                {feedbacksWithProgram.length > 0 ? (
+                  <ul className="divide-y divide-gray-100">
+                    {feedbacksWithProgram.slice(0, 8).map(({ feedback, program }) => (
+                      <li key={feedback.id} className="px-6 py-5 hover:bg-gray-50 transition-colors">
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                          <div className="flex items-start flex-1">
+                            <img className="h-12 w-12 rounded-full border-2 border-rose-200 shadow-sm flex-shrink-0" src={feedback.avatar} alt={feedback.author} />
+                            <div className="ml-4 flex-1 min-w-0">
+                              <div className="flex items-center gap-2 flex-wrap">
+                                <p className="text-base font-semibold text-gray-900">{feedback.author}</p>
+                                <span className="text-xs text-gray-500">•</span>
+                                <span className="text-xs text-gray-500">{feedback.date}</span>
+                              </div>
+                              {program && (
+                                <p className="text-sm text-rose-600 font-medium mt-1">
+                                  {program.name}
+                                </p>
+                              )}
+                              <p className="text-sm text-gray-600 mt-2 line-clamp-2">"{feedback.comment}"</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center bg-gradient-to-r from-yellow-50 to-orange-50 px-4 py-2 rounded-full shadow-sm flex-shrink-0">
+                            <span className="text-base font-bold text-yellow-700 mr-1">{feedback.rating}</span>
+                            <StarIcon className="h-5 w-5 text-yellow-400" />
+                          </div>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="px-6 py-12 text-center text-gray-500">
+                    <p>Nenhum feedback recebido ainda.</p>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         )}
@@ -448,6 +559,101 @@ export const AgencyDashboardPage: React.FC<AgencyDashboardProps> = ({
                 <button type="submit" className="px-5 py-2.5 bg-rose-600 text-white rounded-lg hover:bg-rose-700 font-bold shadow-md">Salvar</button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Program Feedbacks Modal */}
+      {isFeedbacksModalOpen && selectedProgramForFeedbacks && (
+        <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-[3000] backdrop-blur-sm">
+          <div className="bg-white rounded-xl shadow-2xl max-w-4xl w-full p-8 max-h-[90vh] overflow-y-auto custom-scrollbar force-light-scheme">
+            <div className="flex justify-between items-start mb-6 border-b pb-4">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">{selectedProgramForFeedbacks.name}</h2>
+                <p className="text-sm text-gray-600 mt-1">
+                  {selectedProgramForFeedbacks.destinationCity}, {selectedProgramForFeedbacks.destinationCountry}
+                </p>
+              </div>
+              <button onClick={() => setFeedbacksModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+                <span className="sr-only">Fechar</span>
+                <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Stats Summary */}
+            <div className="grid grid-cols-3 gap-4 mb-8">
+              <div className="bg-gradient-to-br from-yellow-50 to-orange-50 p-4 rounded-lg border border-yellow-100">
+                <p className="text-xs font-semibold text-gray-600 uppercase">Avaliação Média</p>
+                <div className="flex items-center mt-2">
+                  <span className="text-3xl font-bold text-yellow-700">
+                    {selectedProgramForFeedbacks.feedbacks.length > 0 
+                      ? (selectedProgramForFeedbacks.feedbacks.reduce((acc, f) => acc + f.rating, 0) / selectedProgramForFeedbacks.feedbacks.length).toFixed(1)
+                      : 'N/A'
+                    }
+                  </span>
+                  {selectedProgramForFeedbacks.feedbacks.length > 0 && <StarIcon className="w-6 h-6 text-yellow-400 ml-2" />}
+                </div>
+              </div>
+              <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-4 rounded-lg border border-blue-100">
+                <p className="text-xs font-semibold text-gray-600 uppercase">Total de Feedbacks</p>
+                <p className="text-3xl font-bold text-blue-700 mt-2">{selectedProgramForFeedbacks.feedbacks.length}</p>
+              </div>
+              <div className="bg-gradient-to-br from-green-50 to-teal-50 p-4 rounded-lg border border-green-100">
+                <p className="text-xs font-semibold text-gray-600 uppercase">Recomendações</p>
+                <p className="text-3xl font-bold text-green-700 mt-2">
+                  {selectedProgramForFeedbacks.feedbacks.filter(f => f.rating >= 4).length}
+                </p>
+              </div>
+            </div>
+
+            {/* Feedbacks List */}
+            <div>
+              <h3 className="text-lg font-bold text-gray-900 mb-4">Todos os Feedbacks</h3>
+              {selectedProgramForFeedbacks.feedbacks.length > 0 ? (
+                <div className="space-y-4">
+                  {selectedProgramForFeedbacks.feedbacks
+                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+                    .map((feedback) => (
+                      <div key={feedback.id} className="bg-gray-50 rounded-lg p-5 border border-gray-200 hover:shadow-md transition-shadow">
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex items-center">
+                            <img 
+                              src={feedback.avatar} 
+                              alt={feedback.author} 
+                              className="w-12 h-12 rounded-full border-2 border-white shadow-sm"
+                            />
+                            <div className="ml-3">
+                              <p className="font-semibold text-gray-900">{feedback.author}</p>
+                              <p className="text-xs text-gray-500">{feedback.date}</p>
+                            </div>
+                          </div>
+                          <div className="flex items-center bg-gradient-to-r from-yellow-100 to-orange-100 px-3 py-1.5 rounded-full border border-yellow-200">
+                            <span className="text-sm font-bold text-yellow-800 mr-1">{feedback.rating}</span>
+                            <StarIcon className="h-4 w-4 text-yellow-600" />
+                          </div>
+                        </div>
+                        <p className="text-gray-700 leading-relaxed">"{feedback.comment}"</p>
+                      </div>
+                    ))
+                  }
+                </div>
+              ) : (
+                <div className="text-center py-12 bg-gray-50 rounded-lg">
+                  <p className="text-gray-500">Este programa ainda não recebeu nenhum feedback.</p>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-8 pt-6 border-t flex justify-end">
+              <button 
+                onClick={() => setFeedbacksModalOpen(false)}
+                className="px-6 py-2.5 bg-gray-600 text-white rounded-lg hover:bg-gray-700 font-semibold shadow-sm"
+              >
+                Fechar
+              </button>
+            </div>
           </div>
         </div>
       )}
