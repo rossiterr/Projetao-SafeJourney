@@ -79,6 +79,9 @@ export const AgencyDashboardPage: React.FC<AgencyDashboardProps> = ({
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
     
+    const longDesc = formData.get('longDescription') as string;
+    const imageUrl = formData.get('imageUrl') as string;
+    
     const newProgram: Program = {
       id: editingProgram ? editingProgram.id : Date.now(),
       name: formData.get('name') as string,
@@ -86,11 +89,11 @@ export const AgencyDashboardPage: React.FC<AgencyDashboardProps> = ({
       destinationCity: formData.get('destinationCity') as string,
       destinationCountry: formData.get('destinationCountry') as string,
       price: Number(formData.get('price')),
-      shortDescription: (formData.get('longDescription') as string).substring(0, 100) + '...',
-      longDescription: formData.get('longDescription') as string,
+      shortDescription: longDesc.substring(0, 100) + (longDesc.length > 100 ? '...' : ''),
+      longDescription: longDesc,
       includes: (formData.get('includes') as string).split(',').map(s => s.trim()).filter(s => s !== ''),
       feedbacks: editingProgram ? editingProgram.feedbacks : [],
-      image: editingProgram ? editingProgram.image : 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80', // Default image
+      image: imageUrl || (editingProgram ? editingProgram.image : 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'),
       verifications: editingProgram ? editingProgram.verifications : []
     };
 
@@ -149,8 +152,21 @@ export const AgencyDashboardPage: React.FC<AgencyDashboardProps> = ({
           background-color: #9ca3af;
         }
         /* Forçar esquema de cor clara para controles nativos neste componente */
-        .force-light-scheme {
-          color-scheme: light;
+        .force-light-scheme,
+        .force-light-scheme select,
+        .force-light-scheme option,
+        .force-light-scheme input,
+        .force-light-scheme textarea {
+          color-scheme: light !important;
+        }
+        /* Garantir que selects tenham fundo branco e texto preto */
+        .force-light-scheme select {
+          background-color: white !important;
+          color: #111827 !important;
+        }
+        .force-light-scheme select option {
+          background-color: white !important;
+          color: #111827 !important;
         }
       `}</style>
 
@@ -394,38 +410,159 @@ export const AgencyDashboardPage: React.FC<AgencyDashboardProps> = ({
       {/* Program Modal */}
       {isProgramModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-[3000] backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto custom-scrollbar force-light-scheme">
-            <h2 className="text-2xl font-bold mb-6 text-gray-900 border-b pb-4">{editingProgram ? 'Editar Programa' : 'Novo Programa'}</h2>
-            <form onSubmit={handleSaveProgram} className="space-y-5">
+          <div className="bg-white rounded-xl shadow-2xl max-w-3xl w-full p-8 max-h-[90vh] overflow-y-auto custom-scrollbar force-light-scheme">
+            <div className="flex items-center justify-between mb-6 border-b pb-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Nome do Programa</label>
-                <input name="name" defaultValue={editingProgram?.name} required className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900" />
+                <h2 className="text-2xl font-bold text-gray-900">{editingProgram ? 'Editar Programa' : 'Novo Programa'}</h2>
+                <p className="text-sm text-gray-500 mt-1">Preencha todos os campos obrigatórios (*)</p>
               </div>
-              <div className="grid grid-cols-2 gap-5">
+              <button onClick={() => setProgramModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <form onSubmit={handleSaveProgram} className="space-y-6">
+              {/* Nome do Programa */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Nome do Programa <span className="text-rose-500">*</span>
+                </label>
+                <input 
+                  name="name" 
+                  defaultValue={editingProgram?.name} 
+                  required 
+                  minLength={3}
+                  maxLength={100}
+                  placeholder="Ex: Intercâmbio Universitário em Lisboa"
+                  className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all" 
+                />
+                <p className="text-xs text-gray-500 mt-1">Mínimo 3 caracteres, máximo 100</p>
+              </div>
+              
+              {/* Localização */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Cidade</label>
-                    <input name="destinationCity" defaultValue={editingProgram?.destinationCity} required className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900" />
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Cidade de Destino <span className="text-rose-500">*</span>
+                    </label>
+                    <input 
+                      name="destinationCity" 
+                      defaultValue={editingProgram?.destinationCity} 
+                      required 
+                      minLength={2}
+                      placeholder="Ex: Lisboa"
+                      className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all" 
+                    />
                 </div>
                 <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">País</label>
-                    <input name="destinationCountry" defaultValue={editingProgram?.destinationCountry} required className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900" />
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      País de Destino <span className="text-rose-500">*</span>
+                    </label>
+                    <input 
+                      name="destinationCountry" 
+                      defaultValue={editingProgram?.destinationCountry} 
+                      required 
+                      minLength={2}
+                      placeholder="Ex: Portugal"
+                      className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all" 
+                    />
                 </div>
               </div>
+              
+              {/* Preço */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Preço ($)</label>
-                <input name="price" type="number" defaultValue={editingProgram?.price} required className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900" />
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Preço (USD) <span className="text-rose-500">*</span>
+                </label>
+                <div className="relative">
+                  <span className="absolute left-3 top-3 text-gray-500 font-semibold">$</span>
+                  <input 
+                    name="price" 
+                    type="number" 
+                    defaultValue={editingProgram?.price} 
+                    required 
+                    min="1"
+                    max="999999"
+                    step="0.01"
+                    placeholder="0.00"
+                    className="w-full border border-gray-300 rounded-lg shadow-sm p-3 pl-8 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all" 
+                  />
+                </div>
+                <p className="text-xs text-gray-500 mt-1">Valor em dólares americanos (USD)</p>
               </div>
+              
+              {/* Descrição Detalhada */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Descrição Detalhada</label>
-                <textarea name="longDescription" defaultValue={editingProgram?.longDescription} required rows={4} className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900" />
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Descrição Detalhada <span className="text-rose-500">*</span>
+                </label>
+                <textarea 
+                  name="longDescription" 
+                  defaultValue={editingProgram?.longDescription} 
+                  required 
+                  minLength={50}
+                  maxLength={1000}
+                  rows={5} 
+                  placeholder="Descreva detalhadamente o programa, incluindo diferenciais, objetivos, público-alvo e benefícios..."
+                  className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all resize-none"
+                  onInput={(e) => {
+                    const target = e.target as HTMLTextAreaElement;
+                    const counter = target.nextElementSibling as HTMLElement;
+                    if (counter) {
+                      counter.textContent = `${target.value.length}/1000 caracteres`;
+                    }
+                  }}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  {editingProgram?.longDescription ? `${editingProgram.longDescription.length}/1000 caracteres` : '0/1000 caracteres'} • Mínimo 50 caracteres
+                </p>
               </div>
+              
+              {/* Inclusos */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Inclusos (separados por vírgula)</label>
-                <input name="includes" defaultValue={editingProgram?.includes?.join(', ') || ''} className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900" placeholder="Ex: Acomodação, Voo, Curso..." />
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Itens Inclusos
+                </label>
+                <input 
+                  name="includes" 
+                  defaultValue={editingProgram?.includes?.join(', ') || ''} 
+                  className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all" 
+                  placeholder="Ex: Acomodação, Passagem aérea, Curso de idiomas, Seguro viagem, Transfer aeroporto"
+                />
+                <p className="text-xs text-gray-500 mt-1">Separe os itens por vírgula. Deixe em branco se não houver itens inclusos.</p>
               </div>
-              <div className="flex justify-end space-x-3 mt-8 pt-4 border-t">
-                <button type="button" onClick={() => setProgramModalOpen(false)} className="px-5 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">Cancelar</button>
-                <button type="submit" className="px-5 py-2.5 bg-rose-600 text-white rounded-lg hover:bg-rose-700 font-bold shadow-md">Salvar Programa</button>
+              
+              {/* URL da Imagem */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  URL da Imagem do Programa
+                </label>
+                <input 
+                  name="imageUrl" 
+                  type="url"
+                  defaultValue={editingProgram?.image} 
+                  placeholder="https://exemplo.com/imagem.jpg"
+                  className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all" 
+                />
+                <p className="text-xs text-gray-500 mt-1">URL válida de uma imagem. Se deixar em branco, uma imagem padrão será usada.</p>
+              </div>
+
+              {/* Botões */}
+              <div className="flex justify-end space-x-3 mt-8 pt-6 border-t">
+                <button 
+                  type="button" 
+                  onClick={() => setProgramModalOpen(false)} 
+                  className="px-6 py-2.5 border-2 border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-semibold transition-all"
+                >
+                  Cancelar
+                </button>
+                <button 
+                  type="submit" 
+                  className="px-6 py-2.5 bg-gradient-to-r from-rose-500 to-pink-600 text-white rounded-lg hover:from-rose-600 hover:to-pink-700 font-bold shadow-lg transition-all transform hover:scale-105"
+                >
+                  {editingProgram ? 'Salvar Alterações' : 'Criar Programa'}
+                </button>
               </div>
             </form>
           </div>
@@ -503,60 +640,188 @@ export const AgencyDashboardPage: React.FC<AgencyDashboardProps> = ({
       {/* Course Modal */}
       {isCourseModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center p-4 z-[3000] backdrop-blur-sm">
-          <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full p-8 max-h-[90vh] overflow-y-auto custom-scrollbar force-light-scheme">
-            <h2 className="text-2xl font-bold mb-6 text-gray-900 border-b pb-4">{editingCourse ? 'Editar Curso/Mentoria' : 'Novo Curso/Mentoria'}</h2>
-            <form onSubmit={handleSaveCourse} className="space-y-5">
+          <div className="bg-white rounded-xl shadow-2xl max-w-3xl w-full p-8 max-h-[90vh] overflow-y-auto custom-scrollbar force-light-scheme">
+            <div className="flex items-center justify-between mb-6 border-b pb-4">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Título</label>
-                <input name="title" defaultValue={editingCourse?.title} required className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900" />
+                <h2 className="text-2xl font-bold text-gray-900">{editingCourse ? 'Editar Curso/Mentoria' : 'Novo Curso/Mentoria'}</h2>
+                <p className="text-sm text-gray-500 mt-1">Preencha todos os campos obrigatórios (*)</p>
               </div>
-              <div className="grid grid-cols-2 gap-5">
+              <button onClick={() => setCourseModalOpen(false)} className="text-gray-400 hover:text-gray-600">
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+            <form onSubmit={handleSaveCourse} className="space-y-6">
+              {/* Título */}
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Título do Curso/Mentoria <span className="text-rose-500">*</span>
+                </label>
+                <input 
+                  name="title" 
+                  defaultValue={editingCourse?.title} 
+                  required 
+                  minLength={3}
+                  maxLength={100}
+                  placeholder="Ex: Curso de Inglês Avançado para Negócios"
+                  className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all" 
+                />
+              </div>
+              
+              {/* Tipo e Programa */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Tipo</label>
-                    <select name="type" defaultValue={editingCourse?.type || 'Curso'} className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900">
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Tipo <span className="text-rose-500">*</span>
+                    </label>
+                    <select 
+                      name="type" 
+                      defaultValue={editingCourse?.type || 'Curso'} 
+                      className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all cursor-pointer"
+                    >
                         <option value="Curso">Curso</option>
                         <option value="Mentoria">Mentoria</option>
                     </select>
                 </div>
                 <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Programa Vinculado</label>
-                    <select name="programId" defaultValue={editingCourse?.programId} required className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900">
-                        {myPrograms.map(p => (
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Programa Vinculado <span className="text-rose-500">*</span>
+                    </label>
+                    <select 
+                      name="programId" 
+                      defaultValue={editingCourse?.programId} 
+                      required 
+                      className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all cursor-pointer"
+                    >
+                        {myPrograms.length === 0 ? (
+                          <option value="" disabled>Nenhum programa disponível</option>
+                        ) : (
+                          myPrograms.map(p => (
                             <option key={p.id} value={p.id}>{p.name}</option>
-                        ))}
+                          ))
+                        )}
                     </select>
+                    {myPrograms.length === 0 && (
+                      <p className="text-xs text-amber-600 mt-1">⚠️ Crie um programa antes de adicionar cursos</p>
+                    )}
                 </div>
               </div>
               
-              <div className="grid grid-cols-2 gap-5">
+              {/* Instrutor e Parceiro */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Instrutor</label>
-                    <input name="instructor" defaultValue={editingCourse?.instructor} required className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900" />
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Instrutor <span className="text-rose-500">*</span>
+                    </label>
+                    <input 
+                      name="instructor" 
+                      defaultValue={editingCourse?.instructor} 
+                      required 
+                      minLength={2}
+                      placeholder="Ex: Dr. João Silva"
+                      className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all" 
+                    />
                 </div>
                 <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Parceiro</label>
-                    <input name="partner" defaultValue={editingCourse?.partner} required className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900" />
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Instituição Parceira <span className="text-rose-500">*</span>
+                    </label>
+                    <input 
+                      name="partner" 
+                      defaultValue={editingCourse?.partner} 
+                      required 
+                      minLength={2}
+                      placeholder="Ex: Universidade de Lisboa"
+                      className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all" 
+                    />
                 </div>
               </div>
 
-              <div className="grid grid-cols-2 gap-5">
+              {/* Preço e Desconto */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Preço ($)</label>
-                    <input name="price" type="number" defaultValue={editingCourse?.price} required className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900" />
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Preço (USD) <span className="text-rose-500">*</span>
+                    </label>
+                    <div className="relative">
+                      <span className="absolute left-3 top-3 text-gray-500 font-semibold">$</span>
+                      <input 
+                        name="price" 
+                        type="number" 
+                        defaultValue={editingCourse?.price} 
+                        required 
+                        min="1"
+                        max="99999"
+                        step="0.01"
+                        placeholder="0.00"
+                        className="w-full border border-gray-300 rounded-lg shadow-sm p-3 pl-8 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all" 
+                      />
+                    </div>
                  </div>
                  <div>
-                    <label className="block text-sm font-semibold text-gray-700 mb-1">Desconto (%)</label>
-                    <input name="discountPercentage" type="number" min="0" max="100" defaultValue={editingCourse?.discountPercentage} className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900" />
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">
+                      Desconto Promocional (%)
+                    </label>
+                    <div className="relative">
+                      <input 
+                        name="discountPercentage" 
+                        type="number" 
+                        min="0" 
+                        max="100" 
+                        defaultValue={editingCourse?.discountPercentage || 0}
+                        placeholder="0"
+                        className="w-full border border-gray-300 rounded-lg shadow-sm p-3 pr-8 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all" 
+                      />
+                      <span className="absolute right-3 top-3 text-gray-500 font-semibold">%</span>
+                    </div>
+                    <p className="text-xs text-gray-500 mt-1">Deixe em 0 para nenhum desconto</p>
                  </div>
               </div>
 
+              {/* Descrição */}
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-1">Descrição</label>
-                <textarea name="description" defaultValue={editingCourse?.description} required rows={3} className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:outline-none bg-white text-gray-900" />
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Descrição do Curso <span className="text-rose-500">*</span>
+                </label>
+                <textarea 
+                  name="description" 
+                  defaultValue={editingCourse?.description} 
+                  required 
+                  minLength={20}
+                  maxLength={500}
+                  rows={4} 
+                  placeholder="Descreva o conteúdo, objetivos, carga horária, metodologia e público-alvo do curso..."
+                  className="w-full border border-gray-300 rounded-lg shadow-sm p-3 focus:ring-2 focus:ring-rose-500 focus:border-rose-500 focus:outline-none bg-white text-gray-900 transition-all resize-none"
+                  onInput={(e) => {
+                    const target = e.target as HTMLTextAreaElement;
+                    const counter = target.nextElementSibling as HTMLElement;
+                    if (counter) {
+                      counter.textContent = `${target.value.length}/500 caracteres`;
+                    }
+                  }}
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  {editingCourse?.description ? `${editingCourse.description.length}/500 caracteres` : '0/500 caracteres'} • Mínimo 20 caracteres
+                </p>
               </div>
-              <div className="flex justify-end space-x-3 mt-8 pt-4 border-t">
-                <button type="button" onClick={() => setCourseModalOpen(false)} className="px-5 py-2.5 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-medium">Cancelar</button>
-                <button type="submit" className="px-5 py-2.5 bg-rose-600 text-white rounded-lg hover:bg-rose-700 font-bold shadow-md">Salvar</button>
+              
+              {/* Botões */}
+              <div className="flex justify-end space-x-3 mt-8 pt-6 border-t">
+                <button 
+                  type="button" 
+                  onClick={() => setCourseModalOpen(false)} 
+                  className="px-6 py-2.5 border-2 border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 font-semibold transition-all"
+                >
+                  Cancelar
+                </button>
+                <button 
+                  type="submit" 
+                  disabled={myPrograms.length === 0}
+                  className="px-6 py-2.5 bg-gradient-to-r from-rose-500 to-pink-600 text-white rounded-lg hover:from-rose-600 hover:to-pink-700 font-bold shadow-lg transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                >
+                  {editingCourse ? 'Salvar Alterações' : 'Criar Curso/Mentoria'}
+                </button>
               </div>
             </form>
           </div>
